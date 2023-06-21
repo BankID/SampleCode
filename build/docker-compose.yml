@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  codefront:
+    image: codefront-server
+    restart: always
+    user: "2000"
+    read_only: true
+    cap_drop:
+      - ALL
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    tmpfs:
+      # These directories need to be writable at runtime.
+      - /tmp:uid=2000,gid=2000
+    volumes:
+      - ../server/certificates/:/opt/codefront/certificates/:r
+      - ./docker/src/logback-spring.xml:/opt/codefront/src/main/resources/logback-spring.xml:r
+    ports:
+      - "8443:8443"

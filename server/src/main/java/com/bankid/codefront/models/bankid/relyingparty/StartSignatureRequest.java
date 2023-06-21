@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,27 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+import com.bankid.codefront.models.Base64String;
+
+/**
+ * Represents a request to start a BankID RP signature transaction.
+ */
+public class StartSignatureRequest extends StartAuthenticationRequest {
+
+    /**
+     * Initialize the object.
+     *
+     * @param endUserIp       the information channel client IP number.
+     * @param userVisibleData the user visible data.
+     */
+    public StartSignatureRequest(String endUserIp, Base64String userVisibleData) {
+        super(endUserIp);
+
+        this.setUserVisibleData(userVisibleData);
+    }
+}

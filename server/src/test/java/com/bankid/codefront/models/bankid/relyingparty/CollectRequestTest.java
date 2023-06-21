@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,31 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Test collect request.
+ */
+public class CollectRequestTest {
+    /**
+     * Serialize as simple as it gets.
+     */
+    @Test
+    public void serialize() throws JsonProcessingException {
+        String expected = "{\"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\"}";
+
+        CollectRequest request = new CollectRequest("131daac9-16c6-4618-beb0-365768f37288");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        Assertions.assertEquals(expected, json);
+    }
+}

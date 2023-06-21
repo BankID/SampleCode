@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,28 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+/**
+ * Here we've decided to outsource the detection of desktop/mobile for our redirect
+ * to the library 'is-mobile'. At the time of writing this library is safe to use.
+ * But you should always do your research and not use libraries you do not trust.
+ */
+import isMobileLib from 'is-mobile';
+
+const useDevice = () => {
+  const isMobileOrTablet = isMobileLib({ tablet: true, featureDetect: true });
+  const isChromeOnAppleDevice = Boolean(navigator.userAgent.match(/CriOS/));
+  const isFirefoxOnAppleDevice = Boolean(navigator.userAgent.match(/FxiOS/));
+  const isOperaTouchOnAppleDevice = Boolean(navigator.userAgent.match(/OPT/));
+
+  return {
+    isMobileOrTablet,
+    isChromeOnAppleDevice,
+    isFirefoxOnAppleDevice,
+    isOperaTouchOnAppleDevice,
+  };
+};
+
+export default useDevice;

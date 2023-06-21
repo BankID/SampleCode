@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,46 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+
+import { useLocalization } from '../../contexts/localization/Localization';
+import arrowLeftIcon from '../../styling/images/arrow-left-solid-darkblue.svg';
+
+const Guide = ({
+  children,
+  status,
+  className,
+  onBackClick,
+}) => {
+  const { translate } = useLocalization();
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    if (typeof onBackClick === 'function') onBackClick();
+    navigate(-1);
+  };
+
+  return (
+    <div className={classNames('guide', status, className)}>
+      <button
+        type='button'
+        className='guide-back-button'
+        onClick={handleBackClick}
+      >
+        <img
+          className='guide-back-button-image'
+          src={arrowLeftIcon}
+          alt={translate('back')}
+        />
+      </button>
+
+      {children}
+    </div>
+  );
+};
+
+export default Guide;

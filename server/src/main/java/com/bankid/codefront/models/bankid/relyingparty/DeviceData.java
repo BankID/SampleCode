@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,52 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
+/**
+ * Represents information about the device.
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DeviceData implements Serializable {
+    private String ipAddress;
+    private String uhi;
+
+    /**
+     * Returns the IP address of the user agent as the BankID server discovers it.
+     * @return the IP address of the user agent as the BankID server discovers it.
+     */
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+
+    /**
+     * Sets the IP address of the user agent as the BankID server discovers it.
+     * @param ipAddress - the IP address of the user agent as the BankID server discovers it.
+     */
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    /**
+     * Returns the uhi for the device.
+     * @return the uhi for the device.
+     */
+    public String getUhi() {
+        return this.uhi;
+    }
+
+    /**
+     * Sets the uhi for the device.
+     * @param uhi - the uhi for the device.
+     */
+    public void setUhi(String uhi) {
+        this.uhi = uhi;
+    }
+}

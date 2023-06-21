@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,37 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront;
+
+import java.security.SecureRandom;
+
+/**
+ * Class with utils used in tests.
+ */
+public final class TestUtils {
+
+    private static final int STRING_LEFT_LIMIT = 97; // letter 'a'
+    private static final int STRING_RIGHT_LIMIT = 122; // letter 'z'
+
+    private TestUtils() { }
+
+    /**
+     * Generate a random string with the provided length.
+     *
+     * @param stringLength  the length of the generated string.
+     * @return              the generated string.
+     */
+    public static String generateString(int stringLength) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder buffer = new StringBuilder(stringLength);
+        for (int i = 0; i < stringLength; i++) {
+            int randomLimitedInt = STRING_LEFT_LIMIT + (int)
+                (random.nextFloat() * (STRING_RIGHT_LIMIT - STRING_LEFT_LIMIT + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
+    }
+}

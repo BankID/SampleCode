@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,42 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models;
+
+import org.owasp.encoder.Encode;
+
+/**
+ * Represents a validated base64 encoded string.
+ */
+public class Base64String extends ValidatedValue {
+
+    private static final String BASE64_PATTERN = "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$";
+    private static final int MINIMUM_LENGTH = 4;
+
+    /**
+     * Creates an instance base on a base64 encoded string.
+     * @param str the base64 encoded string.
+     */
+    public Base64String(String str) {
+        this.throwForNull(str);
+        this.throwForIllegalPattern(str, BASE64_PATTERN);
+        if (str.length() < MINIMUM_LENGTH) {
+            throw new IllegalArgumentException(
+                "Supplied "
+                + this.getNameOfValue()
+                + " is too short: '"
+                + Encode.forJava(str)
+                + "'.");
+        }
+
+        this.setValue(str);
+    }
+
+    @Override
+    protected String getNameOfValue() {
+        return "Base64String";
+    }
+}

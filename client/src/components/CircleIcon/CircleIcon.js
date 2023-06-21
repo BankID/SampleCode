@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,30 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import classNames from 'classnames';
+
+import exclamationIcon from '../../styling/images/exclamation-solid.svg';
+import checkIcon from '../../styling/images/check-solid.svg';
+
+const icons = {
+  error: exclamationIcon,
+  success: checkIcon,
+};
+
+const CircleIcon = ({
+  type,
+  className,
+}) => (
+  <div className={classNames('circle-icon', type, className)}>
+    <img
+      className='circle-icon-image'
+      src={icons[type]}
+      alt=''
+    />
+  </div>
+);
+
+export default CircleIcon;

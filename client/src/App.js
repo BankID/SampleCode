@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,34 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Axios from 'axios';
+
+import Contexts from './contexts/Contexts';
+import Header from './components/Header/Header';
+import api from './api';
+import Body from './Body';
+
+const App = () => {
+  // On launch we call the API to get a CSRF-token.
+  useEffect(() => {
+    api.start().then((response) => {
+      Axios.defaults.headers.common['X-CSRF-TOKEN'] = response.data.csrfToken;
+    });
+  }, []);
+
+  return (
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Contexts>
+        <Header />
+        <Body />
+      </Contexts>
+    </BrowserRouter>
+  );
+};
+
+export default App;

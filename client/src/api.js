@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,63 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import Axios from 'axios';
+
+const BASE_URL = `${window.location.origin}${process.env.PUBLIC_URL}/api`;
+
+const start = () => Axios.get(
+  `${BASE_URL}/start`,
+  { withCredentials: true },
+);
+
+const authentication = ({ text, textIsFormatted }) => {
+  const userVisibleData = text;
+  const userVisibleDataFormat = textIsFormatted ? 'SIMPLE_MARKDOWN_V1' : 'NONE';
+
+  return Axios.post(
+    `${BASE_URL}/authentication`,
+    {
+      userVisibleData,
+      userVisibleDataFormat,
+    },
+    { withCredentials: true },
+  );
+};
+
+const sign = ({ text, textIsFormatted }) => {
+  const userVisibleData = text;
+  const userVisibleDataFormat = textIsFormatted ? 'SIMPLE_MARKDOWN_V1' : 'NONE';
+
+  return Axios.post(
+    `${BASE_URL}/sign`,
+    {
+      userVisibleData,
+      userVisibleDataFormat,
+    },
+    { withCredentials: true },
+  );
+};
+
+const check = () => Axios.post(
+  `${BASE_URL}/check`,
+  {},
+  { withCredentials: true },
+);
+
+const cancel = () => Axios.delete(
+  `${BASE_URL}/cancel`,
+  { withCredentials: true },
+);
+
+const api = {
+  start,
+  authentication,
+  sign,
+  check,
+  cancel,
+};
+
+export default api;

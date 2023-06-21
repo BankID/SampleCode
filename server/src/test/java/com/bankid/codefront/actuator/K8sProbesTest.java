@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,57 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.actuator;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * Test k8s probes.
+ */
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = {"management.server.port=9111"}
+)
+@ActiveProfiles({"dev"})
+public class K8sProbesTest {
+
+    private static final String MANAGEMENT_HOST = "http://localhost:9111/";
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    /**
+     * Test liviness probe.
+     */
+    @Test
+    public void testLiviness() {
+        ResponseEntity<String>
+            startResponse = this.restTemplate.getForEntity(MANAGEMENT_HOST + "/actuator/health/liveness", String.class);
+
+        assertEquals(HttpStatus.OK, startResponse.getStatusCode());
+    }
+
+    /**
+     * Test readiness probe.
+     */
+    @Test
+    public void testReadiness() {
+        ResponseEntity<String> startResponse = this.restTemplate.getForEntity(
+            MANAGEMENT_HOST + "/actuator/health/readiness",
+            String.class
+        );
+
+        assertEquals(HttpStatus.OK, startResponse.getStatusCode());
+    }
+}

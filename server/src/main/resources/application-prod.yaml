@@ -1,0 +1,15 @@
+app:
+  bankid:
+
+    ##########################
+    # BankID Relying Party settings
+    #
+    # Url                         The url to the BankID Relying Party api endpoint.
+    #                             This is different between production and "kundtest" environment.
+    ##########################
+    relying-party:
+      url: https://appapi2.bankid.com/rp/v6.0
+      trust-store-path: certificates/production/truststore.p12
+      trust-store-password: qwerty123
+      client-cert-store-path:     # Add bankId client key
+      client-cert-store-password:

@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,35 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+/**
+ * Represents the configuration settings for the BankID Relying Party API.
+ */
+@ConfigurationProperties("app.bankid.headers")
+public class HeadersConfig {
+    @SuppressWarnings("checkstyle:LineLength")
+    private static final String DEFAULT_CSP_HEADER = "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self';";
+    private String csp = DEFAULT_CSP_HEADER;
+
+    /**
+     * Get csp header.
+     * @return the csp header.
+     */
+    public String getCsp() {
+        return this.csp;
+    }
+
+    /**
+     * Set csp header.
+     * @param csp the csp header.
+     */
+    public void setCsp(String csp) {
+        this.csp = csp;
+    }
+}

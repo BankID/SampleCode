@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,49 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.bankid.relyingparty.signature;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.NamespaceContext;
+import java.util.Iterator;
+
+/**
+ * Implements the namespace context for BID signatures.
+ */
+public class BidSignatureNamespaceContext implements NamespaceContext {
+    /**
+     * {@inheritDoc}
+     */
+    public String getNamespaceURI(String prefix) {
+        if (prefix == null) {
+            throw new NullPointerException("Null prefix");
+        } else if ("digsig".equals(prefix)) {
+            return "http://www.w3.org/2000/09/xmldsig#";
+        } else if ("bidsig".equals(prefix)) {
+            return "http://www.bankid.com/signature/v1.0.0/types";
+        } else if ("xml".equals(prefix)) {
+            return XMLConstants.XML_NS_URI;
+        }
+
+        return XMLConstants.NULL_NS_URI;
+    }
+
+    /**
+     * This method isn't necessary for XPath processing.
+     * {@inheritDoc}
+     */
+    public String getPrefix(String uri) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * This method isn't necessary for XPath processing.
+     * {@inheritDoc}
+     */
+    public Iterator<String> getPrefixes(String uri) {
+        throw new UnsupportedOperationException();
+    }
+}

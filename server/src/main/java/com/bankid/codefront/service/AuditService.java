@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,32 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.service;
+
+import com.bankid.codefront.models.bankid.relyingparty.CollectResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+/**
+ * Placeholder service to handle audit logging.
+ * Implement your own audit for future references/compliance/audit.
+ */
+@Service
+public class AuditService {
+
+    private final Logger logger = LoggerFactory.getLogger(AuditService.class);
+
+    /**
+     * Audit log collect response.
+     * Add your own implementation.
+     * @param collectResponse the successful collect response to log.
+     */
+    public void logCollectResponse(CollectResponse collectResponse) {
+        // Relying party should keep the completion data for future references/compliance/audit.
+        this.logger.info("Add storage for collectResponse");
+    }
+}

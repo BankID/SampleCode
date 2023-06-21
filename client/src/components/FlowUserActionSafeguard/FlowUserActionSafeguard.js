@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,31 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useHash from '../../hooks/useHash';
+
+export const pageOpenedByUserAction = (location = {}, hashParams = {}) => (location.state || {}).triggeredByUser || hashParams.initiated === 'true';
+
+// To avoid initiating a flow without the users intent we should navigate away
+// if we somehow ended up on a flow page without the correct state
+const FlowUserActionSafeguard = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { hashParams } = useHash();
+
+  useEffect(() => {
+    const shouldNavigateAway = !pageOpenedByUserAction(location, hashParams);
+
+    if (shouldNavigateAway) {
+      navigate('/');
+    }
+  }, []);
+
+  return null;
+};
+
+export default FlowUserActionSafeguard;

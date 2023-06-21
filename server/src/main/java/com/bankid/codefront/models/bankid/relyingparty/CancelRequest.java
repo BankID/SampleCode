@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,39 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+/**
+ * Request to cancel an ongoing transaction.
+ */
+public class CancelRequest {
+    private String orderRef;
+
+    /**
+     * Initialize request from order reference.
+     * @param orderRef
+     * The orderRef returned from auth or sign.
+     */
+    public CancelRequest(String orderRef) {
+        this.orderRef = orderRef;
+    }
+
+    /**
+     * Returns the orderRef returned from auth or sign.
+     * @return the orderRef returned from auth or sign.
+     */
+    public String getOrderRef() {
+        return this.orderRef;
+    }
+
+    /**
+     * Sets the orderRef returned from auth or sign.
+     * @param orderRef the orderRef returned from auth or sign.
+     */
+    public void setOrderRef(String orderRef) {
+        this.orderRef = orderRef;
+    }
+}

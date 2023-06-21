@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,40 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.service;
+
+/**
+ * Transaction Status.
+ */
+public enum Status {
+    /**
+     * Transaktion complete.
+     */
+    COMPLETE,
+    /**
+     * Transaction failed.
+     */
+    FAILED,
+    /**
+     * Transaction in progress.
+     */
+    PENDING;
+
+    /**
+     * Get status from String.
+     * @param value string representations of status.
+     * @return status.
+     */
+    public static Status fromString(String value) {
+
+        for (Status s : Status.values()) {
+            if (s.toString().equalsIgnoreCase(value)) {
+                return s;
+            }
+        }
+        return PENDING;
+    }
+}

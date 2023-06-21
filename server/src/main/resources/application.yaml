@@ -1,0 +1,85 @@
+server:
+  port: 8443
+  compression:
+    enabled: false
+
+  # Enabled SSL protocols.
+  ssl:
+    enabled-protocols: TLSv1.2
+
+  tomcat:
+    # Instruct tomcat to handle X-Forwarded-For
+    remoteip:
+      remote-ip-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
+
+logging:
+  level:
+    root: INFO
+  config: /opt/codefront/default-config/logback-spring.xml
+
+management:
+  server:
+    port: 8081
+    ssl:
+      enabled: false
+
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: metrics,prometheus,health
+
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      group:
+        readiness:
+          include: "readinessState,redis"
+      probes:
+        enabled: true
+      enabled: true
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+    redis:
+      enabled: true
+
+spring:
+  profiles:
+    active: dev,dev-log
+  main:
+    # Get rid of that banner to handle json-formatted logging
+    banner-mode: 'off'
+  redis:
+    host: localhost
+    port: 6379
+
+app:
+  bankid:
+    headers:
+      # CSP Header
+      csp: "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self';"
+
+    ##########################
+    # BankID Relying Party settings
+    #
+    # Url                         The url to the BankID Relying Party api endpoint.
+    #                             This is different between production and "kundtest" environment.
+    # authentication-requirements The BankID Relying Party authentication requirements.
+    #                             Could be different between production and "kundtest" environment.
+    # signature-requirements      The BankID Relying Party signature requirements.
+    #                             Could be different between production and "kundtest" environment.
+    ##########################
+    relying-party:

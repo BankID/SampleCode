@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,32 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Test cancel request.
+ */
+public class CancelRequestTest {
+    /**
+     * Test to verify that deserialization works nicely. The json data is taken from
+     * https://www.bankid.com/rp/info
+     */
+    @Test
+    public void serialize() throws JsonProcessingException {
+        String expected = "{\"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\"}";
+        CancelRequest request = new CancelRequest("131daac9-16c6-4618-beb0-365768f37288");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        Assertions.assertEquals(expected, json);
+    }
+}

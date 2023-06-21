@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,45 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { useEffect, useState } from 'react';
+/**
+ * Here we've decided to use a library for creating the QR images. At the time of
+ * writing this library is safe to use. But you should always do your research
+ * and not use libraries you do not trust.
+ */
+import QRLib from 'qrcode';
+import { useLocalization } from '../../contexts/localization/Localization';
+
+const qrCodeOptions = {
+  width: 200,
+  margin: 3,
+  errorCorrectionLevel: 'L',
+};
+
+const QrCode = ({ qrCode }) => {
+  const { translate } = useLocalization();
+  const [qrImage, setQrImage] = useState();
+
+  useEffect(() => {
+    QRLib.toDataURL(qrCode, qrCodeOptions)
+      .then((url) => {
+        setQrImage(url);
+      })
+      .catch(() => {
+        setQrImage(undefined);
+      });
+  }, [qrCode]);
+
+  if (!qrImage) {
+    return null;
+  }
+
+  return (
+    <img src={qrImage} alt={translate('qr-code')} />
+  );
+};
+
+export default QrCode;

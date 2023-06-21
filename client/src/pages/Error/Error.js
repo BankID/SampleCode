@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,47 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { Link } from 'react-router-dom';
+
+import { useLocalization } from '../../contexts/localization/Localization';
+import backgroundImage from '../../styling/images/eid-still.png';
+import { URLS } from '../../constants';
+
+const Start = () => {
+  const { translate } = useLocalization();
+
+  return (
+    <>
+      <div className='thin-content-container'>
+        <h1>
+          {translate('error-title')}
+        </h1>
+
+        <p className='subtitle-paragraph'>
+          {translate('error-subtitle')}
+        </p>
+
+        <Link
+          to={URLS.start}
+          className='button primary'
+        >
+          {translate('error-back-to-start')}
+        </Link>
+      </div>
+
+      <div className='background-container'>
+        <img
+          src={backgroundImage}
+          alt=''
+          className='background-image'
+        />
+      </div>
+
+    </>
+  );
+};
+
+export default Start;

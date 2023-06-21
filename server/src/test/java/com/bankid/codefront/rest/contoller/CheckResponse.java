@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,66 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.rest.contoller;
+
+import com.bankid.codefront.models.service.Status;
+
+/**
+ * Transaction status.
+ */
+public class CheckResponse {
+    private String hintCode;
+    private Status status;
+    private String qrCode;
+
+    /**
+     * Returns the hint code.
+     * @return the hint code.
+     */
+    public String getHintCode() {
+        return this.hintCode;
+    }
+
+    /**
+     * Sets the hint code.
+     * @param hintCode the hint code.
+     */
+    public void setHintCode(String hintCode) {
+        this.hintCode = hintCode;
+    }
+
+    /**
+     * Returns the status.
+     * @return the status.
+     */
+    public Status getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Sets the status.
+     * @param status the status.
+     */
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    /**
+     * Returns the qr code.
+     * @return the qr code.
+     */
+    public String getQrCode() {
+        return this.qrCode;
+    }
+
+    /**
+     * Sets qr code.
+     * @param qrCode the qr code.
+     */
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+}

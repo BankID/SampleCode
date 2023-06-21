@@ -1,3 +1,4 @@
+/*
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +28,31 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+package com.bankid.codefront.models.bankid.relyingparty;
+
+/**
+ * Represents the request for collecting BankID status.
+ */
+public class CollectRequest {
+    private final String orderRef;
+
+    /**
+     * Initialize request from order reference.
+     * @param orderRef
+     * The orderRef returned from auth or sign.
+     */
+    public CollectRequest(String orderRef) {
+        this.orderRef = orderRef;
+    }
+
+    /**
+     * Returns the order reference.
+     * @return the order reference.
+     */
+    public String getOrderRef() {
+        return this.orderRef;
+    }
+}

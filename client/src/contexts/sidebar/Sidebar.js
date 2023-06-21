@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,56 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import {
+  createContext,
+  useState,
+  useMemo,
+  useContext,
+} from 'react';
+
+const defaultContext = {
+  isOpen: false,
+  open: () => {},
+  close: () => {},
+  toggle: () => {},
+};
+
+const SidebarContext = createContext(defaultContext);
+
+const Sidebar = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const contextValue = useMemo(() => {
+    const open = () => {
+      setIsOpen(true);
+    };
+
+    const close = () => {
+      setIsOpen(false);
+    };
+
+    const toggle = () => {
+      setIsOpen(!isOpen);
+    };
+
+    return {
+      isOpen,
+      open,
+      close,
+      toggle,
+    };
+  }, [isOpen]);
+
+  return (
+    <SidebarContext.Provider value={contextValue}>
+      {children}
+    </SidebarContext.Provider>
+  );
+};
+
+export default Sidebar;
+
+export const useSidebar = () => useContext(SidebarContext);

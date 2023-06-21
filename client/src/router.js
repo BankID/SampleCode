@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,41 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
+import { URLS } from './constants';
+import Start from './pages/Start/Start';
+import ScanQR from './pages/ScanQR/ScanQR';
+import OpenDesktopApp from './pages/OpenDesktopApp/OpenDesktopApp';
+import OpenMobileApp from './pages/OpenMobileApp/OpenMobileApp';
+import ResultSuccess from './pages/ResultSuccess/ResultSuccess';
+import ResultFailed from './pages/ResultFailed/ResultFailed';
+import About from './pages/About/About';
+import Error from './pages/Error/Error';
+
+const Router = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location.pathname]);
+
+  return (
+    <Routes>
+      <Route path={URLS.start} element={<Start />} />
+      <Route path={URLS.scanQr} element={<ScanQR />} />
+      <Route path={URLS.openDesktopApp} element={<OpenDesktopApp />} />
+      <Route path={URLS.openMobileApp} element={<OpenMobileApp />} />
+      <Route path={URLS.resultSuccess} element={<ResultSuccess />} />
+      <Route path={URLS.resultFailed} element={<ResultFailed />} />
+      <Route path={URLS.about} element={<About />} />
+      <Route path='*' element={<Error />} />
+    </Routes>
+  );
+};
+
+export default Router;

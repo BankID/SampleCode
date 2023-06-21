@@ -1,0 +1,104 @@
+{
+    "htmlLang": "en",
+    "locale": "en",
+    "lang-name": "EN",
+    "lang-name-long": "English",
+
+    "page-title": "Demo",
+
+    "startpage-title": "Demo: How BankID works",
+    "startpage-subtitle": "View how BankID works when it's been set up properly for optimal security and user experience. BankID can be used for identification and digital signatures. Select the flow you wish to see with the buttons below. In the demo you use your normal BankID.",
+    "startpage-test-identification": "Try Identification",
+    "startpage-test-signing": "Try Signing",
+    
+    "footer-about": "About BankID demo",
+    "footer-cookies": "Cookies",
+    "footer-cookies-link": "https://www.bankid.com/en/cookies",
+    "footer-integrity": "Integrity",
+    "footer-integrity-link": "https://www.bankid.com/en/integritetspolicy",
+
+    "read-the-code-on-github": "See the code on GitHub",
+
+    "settings": "Settings",
+    "identification": "Identification",
+    "signing": "Signing",
+
+    "identification-text": "Text for \"My purpose\"",
+    "signing-text": "Signature text",
+
+    "use-formatted-identification-text": "Use formatted text",
+    "use-formatted-signing-text": "Use formatted text",
+
+    "start-test": "Start test",
+
+    "default-identify-text": "# Identification in BankID Demo\n\nI identify myself with BankID Demo",
+    "default-sign-text": "# Signing with BankID Demo\n\nI sign with BankId Demo",
+
+    "identification-text-validation-error": "You can't have an empty text field when formatted text is activated.",
+    "sign-text-validation-error": "You can't have an empty text field for signing.",
+
+    "identify-with-bankid": "Identify with BankID",
+    "sign-with-bankid": "Sign with BankID",
+
+    "qr-code": "QR-code",
+
+    "open-bankid-app": "Open BankID",
+    "open-bankid-on-this-device": "Open BankID on this device instead",
+    "open-bankid-on-another-device": "Open BankID on another device instead",
+
+    "expand": "Expand",
+    "back": "Back",
+    "close": "Close",
+    "try-again": "Try again",
+    "cancel": "Cancel",
+
+    "help-text": "Here you can add your own texts and change settings.",
+
+    "test-sign": "Try signing",
+
+    "identification-success": "Success!",
+    "sign-success": "Success!",
+    "name": "Name",
+    "personal-number": "Personal number",
+    "signed-text": "Signed",
+
+    "specification-link": "Integration guide",
+
+    "about-title": "About BankID Demo",
+    "about-subtitle": "In this demo you can see how BankID works when it's properly integrated and provides a secure and good user experience. BankID can be used both for identification and digital signatures.",
+    "about-paragraphs-title-1": "Try identification",
+    "about-paragraphs-body-1": "When you try identification, you see how the user experiences the flow. You can choose to enter a descriptive text for the purpose of the identification. It increases clarity for your customers and makes it easier to discover if something is not right. The text automatically starts with “My intention:”. In the demo, you can try inserting and formatting your own text and see how it would look.",
+    "about-paragraphs-title-2": "Try signature",
+    "about-paragraphs-body-2": "Digital signatures with BankID are just as valid as physical ones. Try the flow from a user perspective. You can choose to enter text that explains what the customer is signing. It increases clarity and makes it easier to discover if something is not right. In the demo, you can try inserting and formatting the test and see how it would look.",
+    "about-paragraphs-title-3": "The code is available on GitHub",
+    "about-paragraphs-body-3": "To make it as easy as possible for you to get a good and secure integration of BankID into your services, you, your developers or the integrator you work with can download the code directly from GitHub.",
+
+    "error-title": "Something went wrong.",
+    "error-subtitle": "Sorry, we couldn't find the page. Please go to the start page instead.",
+    "error-back-to-start": "Go to start page",
+
+    "hintcode-qr-outstandingTransaction": "Start the BankID app and scan the QR code.",
+    "hintcode-desktop-outstandingTransaction": "Trying to start BankID Security Application.",
+    "hintcode-mobile-outstandingTransaction": "Please click the button below to start your BankID app.",
+
+    "hintcode-qr-started": "Start the BankID app and scan the QR code.",
+    "hintcode-desktop-started": "Trying to start BankID Security Application.",
+    "hintcode-mobile-started": "Please click the button below to start your BankID app.",
+
+    "hintcode-userSign": "Enter your security code in the BankID app and select Identify or Sign.",
+    "hintcode-desktop-userSign": "Enter your security code in the BankID Security Application and select Identify or Sign.",
+
+    "hintcode-unknown": "Something went wrong. Please try again.",
+    "hintcode-userCancel": "Action cancelled.",
+
+    "hintcode-startFailed": "The BankID app couldn't be found on your computer or mobile device. Please install it and get a BankID from your internet bank. Install the app from your app store or https://install.bankid.com.",
+    "hintcode-qr-startFailed": "The scan failed. Start the BankID app and scan the QR code. Check that the BankID app is up to date. If you don't have the BankID app, you need to install it and get a BankID from your internet bank. Install the app from your app store or https://install.bankid.com.",
+
+    "hintcode-expiredTransaction": "The BankID app is not responding. Please check that the program is started and that you have internet access. If you don't have a valid BankID you can get one from your bank. Try again.",
+    "hintcode-certificateErr": "The BankID you are trying to use is revoked or too old. Please use a different BankID or get a new one from your internet bank.",
+    "hintcode-alreadyInProgress": "An identification or signing for this personal number is already started. Please try again.",
+    "hintcode-requestTimeout": "Something went wrong. Please try again.",
+    "hintcode-maintenance": "Something went wrong. Please try again.",
+    "hintcode-internalError": "Something went wrong. Please try again."
+
+}

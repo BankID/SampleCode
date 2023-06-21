@@ -1,0 +1,29 @@
+<configuration>
+    <springProfile name="!dev-log">
+        <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"HOSTNAME":"${HOSTNAME}"}</customFields>
+            </encoder>
+        </appender>
+        <logger name="jsonLogger" additivity="false" level="DEBUG">
+            <appender-ref ref="consoleAppender"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="consoleAppender"/>
+        </root>
+    </springProfile>
+    <springProfile name="dev-log">
+        <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d [%thread] %level{8} %logger{50} [%X{userIp}] [%X{userId}] %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="consoleLogger" additivity="false" level="DEBUG">
+            <appender-ref ref="consoleAppender"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="consoleAppender"/>
+        </root>
+    </springProfile>
+</configuration>

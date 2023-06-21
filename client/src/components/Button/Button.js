@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,44 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+
+const Button = ({
+  to,
+  state,
+  text,
+  buttonType = 'primary',
+  disabled,
+  title,
+  onClick,
+}) => {
+  const handleClick = (e) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+
+    if (typeof onClick === 'function') {
+      onClick(e);
+    }
+  };
+
+  return (
+    <Link
+      to={to}
+      state={state}
+      className={classNames('button', buttonType)}
+      onClick={handleClick}
+      disabled={disabled}
+      title={title}
+    >
+      {text}
+    </Link>
+  );
+};
+
+export default Button;

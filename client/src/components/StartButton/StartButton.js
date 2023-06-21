@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,48 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import { URLS } from '../../constants';
+import { useSidebar } from '../../contexts/sidebar/Sidebar';
+import useDevice from '../../hooks/useDevice';
+import Button from '../Button/Button';
+
+const StartButton = ({
+  testingType,
+  text,
+  buttonType = 'primary',
+  disabled,
+  title,
+}) => {
+  const {
+    isMobileOrTablet,
+  } = useDevice();
+  const { close: closeSidebar } = useSidebar();
+
+  const url = isMobileOrTablet ? URLS.openMobileApp : URLS.scanQr;
+
+  const handleClick = (e) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+
+    closeSidebar();
+  };
+
+  return (
+    <Button
+      to={url}
+      state={{ testingType, triggeredByUser: true }}
+      buttonType={buttonType}
+      onClick={handleClick}
+      disabled={disabled}
+      title={title}
+      text={text}
+    />
+  );
+};
+
+export default StartButton;

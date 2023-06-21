@@ -1,0 +1,9 @@
+management:
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: "readinessState,redis"
+  health:
+    redis:
+      enabled: true

@@ -1,3 +1,5 @@
+/*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -27,3 +29,36 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+import classNames from 'classnames';
+
+import MainContent from './components/MainContent/MainContent';
+import Footer from './components/Footer/Footer';
+import Sidebar from './components/Sidebar/Sidebar';
+import Router from './router';
+import { useSidebar } from './contexts/sidebar/Sidebar';
+
+const App = () => {
+  const { isOpen: sidebarOpen } = useSidebar();
+
+  return (
+
+    <div className={classNames('content', sidebarOpen && 'sidebar-open')}>
+      <div className='content-left'>
+
+        <MainContent>
+          <Router />
+        </MainContent>
+
+        <Footer />
+
+      </div>
+
+      <Sidebar />
+    </div>
+  );
+};
+
+export default App;
