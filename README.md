@@ -31,6 +31,6 @@ You may not use the name of our company or brand without written consent.
 
 ## More info
 
-[Readme for the backend](/server/README.md)
+- [Readme for the backend](/server/README.md)
 
-[Readme for the frontend](/client/README.md)
+- [Readme for the frontend](/client/README.md)
