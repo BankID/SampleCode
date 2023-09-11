@@ -15,7 +15,7 @@ QR code is used when the user visits a site on one device and uses the BankID ap
 
 In the frontend we handle the animation by polling the API every second to get the latest code and update the QR code shown on the site.
 
-See [/src/pages/ScanQR](/src/pages/ScanQR/ScanQR.js) for more info.
+See [src/pages/ScanQR](src/pages/ScanQR/ScanQR.js) for more info.
 
 ### Autostart
 
@@ -27,13 +27,13 @@ In the frontend we handle this by checking what type of device the user has and 
 
 If the user is on a desktop device we just redirect to a URL with the `bankid://`-scheme and the BankID Security Program opens.
 
-See [/src/pages/OpenDesktopApp](/src/pages/OpenDesktopApp/OpenDesktopApp.js) for more info.
+See [src/pages/OpenDesktopApp](src/pages/OpenDesktopApp/OpenDesktopApp.js) for more info.
 
 ### Autostart Mobile
 
 On a mobile device we redirect to `app.bankid.com` which handles opening of the BankID app correctly on iOS and Android. For the BankID app to redirect back to the site correctly we need to pass a `returnUrl`. On iOS this is a bit tricky due to all links opening in Safari regardless of what default browser the user has.
 
-See [/src/pages/OpenMobileApp](/src/pages/OpenMobileApp/OpenMobileApp.js) for more info.
+See [src/pages/OpenMobileApp](src/pages/OpenMobileApp/OpenMobileApp.js) for more info.
 
 
 ---

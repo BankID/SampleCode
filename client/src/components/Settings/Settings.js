@@ -42,7 +42,7 @@ import FoldableContent from '../FoldableContent/FoldableContent';
 import StartButton from '../StartButton/StartButton';
 
 const Settings = () => {
-  const { translate } = useLocalization();
+  const { translate, activeLanguage } = useLocalization();
   const location = useLocation();
 
   const inProgress = [
@@ -51,26 +51,31 @@ const Settings = () => {
   const { testingType } = location.state || {};
 
   const defaultIdentificationText = translate('default-identify-text');
-  const [identificationText, setIdentificationText] = useState(sessionStorage.getItem('identify.text') ?? defaultIdentificationText);
+  const [identificationText, setIdentificationText] = useState(sessionStorage.getItem(`identify.text.${activeLanguage}`) ?? defaultIdentificationText);
   const [formattedIdentificationText, setFormattedIdentificationText] = useState(
     !sessionStorage.getItem('identify.text.formatted')
       || sessionStorage.getItem('identify.text.formatted') === 'true',
   );
 
   const defaultSigningText = translate('default-sign-text');
-  const [signText, setSignText] = useState(sessionStorage.getItem('sign.text') ?? defaultSigningText);
+  const [signText, setSignText] = useState(sessionStorage.getItem(`sign.text.${activeLanguage}`) ?? defaultSigningText);
   const [formattedSignText, setFormattedSignText] = useState(
     !sessionStorage.getItem('sign.text.formatted')
       || sessionStorage.getItem('sign.text.formatted') === 'true',
   );
 
   useEffect(() => {
-    sessionStorage.setItem('identify.text', identificationText);
+    sessionStorage.setItem(`identify.text.${activeLanguage}`, identificationText);
     sessionStorage.setItem('identify.text.formatted', formattedIdentificationText);
 
-    sessionStorage.setItem('sign.text', signText);
+    sessionStorage.setItem(`sign.text.${activeLanguage}`, signText);
     sessionStorage.setItem('sign.text.formatted', formattedSignText);
   }, [identificationText, formattedIdentificationText, signText, formattedSignText]);
+
+  useEffect(() => {
+    setIdentificationText(sessionStorage.getItem(`identify.text.${activeLanguage}`) ?? defaultIdentificationText);
+    setSignText(sessionStorage.getItem(`sign.text.${activeLanguage}`) ?? defaultSigningText);
+  }, [activeLanguage]);
 
   return (
     <>

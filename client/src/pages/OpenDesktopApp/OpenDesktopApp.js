@@ -41,7 +41,7 @@ import flowUtils from '../../flow-utils';
 import FlowUserActionSafeguard, { pageOpenedByUserAction } from '../../components/FlowUserActionSafeguard/FlowUserActionSafeguard';
 
 const OpenDesktopApp = () => {
-  const { translate } = useLocalization();
+  const { translate, activeLanguage } = useLocalization();
   const location = useLocation();
   const testingType = (location.state || {}).testingType || 'identify';
   const navigate = useNavigate();
@@ -60,6 +60,7 @@ const OpenDesktopApp = () => {
       flowType: 'desktop',
       testingType,
       navigate,
+      activeLanguage,
       translate,
       onInitDone: (data) => {
         const { autoStartToken } = data;

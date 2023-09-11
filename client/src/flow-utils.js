@@ -123,6 +123,7 @@ const init = ({
   flowType,
   testingType,
   navigate,
+  activeLanguage,
   translate,
   onInitDone,
   onUpdate,
@@ -143,7 +144,7 @@ const init = ({
   // We call the API to initate the flow.
   initFunction(
     // In this example we pass along the text settings from the sidebar.
-    getTextOptions(testingType, translate),
+    getTextOptions(testingType, activeLanguage, translate),
   ).then((response) => {
     // If init is successful we return the init data needed to continue the flow.
     if (typeof onInitDone === 'function') {

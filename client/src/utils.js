@@ -32,10 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-export const getTextOptions = (testingType, translate) => {
+export const getTextOptions = (testingType, activeLanguage, translate) => {
   const text = testingType === 'identify'
-    ? (sessionStorage.getItem(`${testingType}.text`) ?? translate(`default-${testingType}-text`))
-    : (sessionStorage.getItem(`${testingType}.text`) || translate(`default-${testingType}-text`));
+    ? (sessionStorage.getItem(`${testingType}.text.${activeLanguage}`) ?? translate(`default-${testingType}-text`))
+    : (sessionStorage.getItem(`${testingType}.text.${activeLanguage}`) || translate(`default-${testingType}-text`));
 
   const textIsFormatted = sessionStorage.getItem(`${testingType}.text.formatted`)
     ? sessionStorage.getItem(`${testingType}.text.formatted`) === 'true'

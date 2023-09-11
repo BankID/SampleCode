@@ -45,7 +45,7 @@ import flowUtils from '../../flow-utils';
 import FlowUserActionSafeguard, { pageOpenedByUserAction } from '../../components/FlowUserActionSafeguard/FlowUserActionSafeguard';
 
 const ScanQR = () => {
-  const { translate } = useLocalization();
+  const { translate, activeLanguage } = useLocalization();
   const { isMobileOrTablet } = useDevice();
   const navigate = useNavigate();
   const location = useLocation();
@@ -67,6 +67,7 @@ const ScanQR = () => {
       flowType: 'qr',
       testingType,
       navigate,
+      activeLanguage,
       translate,
       onUpdate: (data) => {
         setStatusHintCode(data.hintCode);

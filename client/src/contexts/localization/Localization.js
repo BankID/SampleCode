@@ -60,6 +60,7 @@ const defaultContext = {
   translationSets: [],
   activeTranslationSet: {},
   changeLanguage: () => {},
+  activeLanguage: '',
 };
 
 const LocalizationContext = createContext(defaultContext);
@@ -93,6 +94,7 @@ const Localization = ({ children }) => {
       changeLanguage,
       translationSets,
       activeTranslationSet,
+      activeLanguage: activeTranslationSet.htmlLang,
     };
   }, [activeTranslationSet]);
 

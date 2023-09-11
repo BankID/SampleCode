@@ -4,13 +4,13 @@ This is the server part of the BankID Demo.
 
 ## Important classes
 
-### [RpApi](/src/main/java/com/bankid/codefront/bankid/relyingparty/RpApi.java)
+### [RpApi](src/main/java/com/bankid/codefront/bankid/relyingparty/RpApi.java)
 Implementation of communication with the BankID relying party api.
 
-### [BankIDService](/src/main/java/com/bankid/codefront/service/BankIDService.java)
+### [BankIDService](src/main/java/com/bankid/codefront/service/BankIDService.java)
 The business logic for using the BankID integration.
 
-### [TransactionController](/src/main/java/com/bankid/codefront/rest/controller/TransactionController.java)
+### [TransactionController](src/main/java/com/bankid/codefront/rest/controller/TransactionController.java)
 Client api for BankID authentication and sign.
 
 ## Spring profiles

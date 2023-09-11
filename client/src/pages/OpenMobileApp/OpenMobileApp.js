@@ -65,7 +65,7 @@ const createReturnUrl = (device, testingType) => {
 };
 
 const OpenMobileApp = () => {
-  const { translate } = useLocalization();
+  const { translate, activeLanguage } = useLocalization();
   const location = useLocation();
   const navigate = useNavigate();
   const { hashParams } = useHash();
@@ -98,6 +98,7 @@ const OpenMobileApp = () => {
         flowType: 'mobile',
         testingType,
         navigate,
+        activeLanguage,
         translate,
         onInitDone: (data) => {
           // When initiating we get an "autoStartToken" back which we pass along to app.bankid.com
