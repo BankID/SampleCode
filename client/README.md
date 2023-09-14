@@ -19,7 +19,7 @@ See [src/pages/ScanQR](src/pages/ScanQR/ScanQR.js) for more info.
 
 ### Autostart
 
-Autostart is used when the user visists a site on the same device as the BankID is located, either on a mobile device where the BankID app is installed or on a desktop device where the BankID Security Program is installed. The user simply clicks a button on the site which opens their BankID application where they can verify the authentication.
+Autostart is used when the user visits a site on the same device as the BankID is located, either on a mobile device where the BankID app is installed or on a desktop device where the BankID Security Program is installed. The user simply clicks a button on the site which opens their BankID application where they can verify the authentication.
 
 In the frontend we handle this by checking what type of device the user has and show different buttons depending on the scenario.
 
