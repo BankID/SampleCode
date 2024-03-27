@@ -61,7 +61,7 @@ public class CompletionDataTest {
                     + "    \"uhi\":\"abc123\"\n"
                     + "  },\n"
                     + "  \"bankIdIssueDate\":\"2020-02-01\",\n"
-                    + "  \"setUp\":{\n"
+                    + "  \"stepUp\":{\n"
                     + "    \"mrtd\":true\n"
                     + "  },\n"
                     + "  \"signature\":\"base64 xml-dig-sig\", \n"
@@ -86,8 +86,8 @@ public class CompletionDataTest {
         Assertions.assertEquals("192.168.0.1", device.getIpAddress());
         Assertions.assertEquals("abc123", device.getUhi());
 
-        SetUpData setUpData = response.getSetUp();
-        Assertions.assertEquals(Boolean.TRUE, setUpData.getMrtd());
+        StepUpData stepUpData = response.getStepUp();
+        Assertions.assertEquals(Boolean.TRUE, stepUpData.getMrtd());
 
         String bankIdIssueDate = response.getBankIdIssueDate();
         Assertions.assertEquals("2020-02-01", bankIdIssueDate);
@@ -114,7 +114,7 @@ public class CompletionDataTest {
                     + "    \"unknownProperty\":\"propertyValue\"\n"
                     + "  },\n"
                     + "  \"bankIdIssueDate\":\"2020-02-01\",\n"
-                    + "  \"setUp\":{\n"
+                    + "  \"stepUp\":{\n"
                     + "    \"unknownProperty\":\"propertyValue\"\n"
                     + "  },\n"
                     + "  \"signature\":\"base64 xml-dig-sig\", \n"
@@ -140,7 +140,7 @@ public class CompletionDataTest {
         Assertions.assertEquals("192.168.0.1", device.getIpAddress());
         Assertions.assertEquals("abc123", device.getUhi());
 
-        SetUpData setUpData = response.getSetUp();
-        Assertions.assertNull(setUpData.getMrtd());
+        StepUpData stepUpData = response.getStepUp();
+        Assertions.assertNull(stepUpData.getMrtd());
     }
 }

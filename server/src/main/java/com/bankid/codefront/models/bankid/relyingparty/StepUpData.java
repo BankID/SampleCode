@@ -41,7 +41,7 @@ import java.io.Serializable;
  * Information about extra verifications that were part of the transaction.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SetUpData implements Serializable {
+public class StepUpData implements Serializable {
     private Boolean mrtd;
 
     /**
