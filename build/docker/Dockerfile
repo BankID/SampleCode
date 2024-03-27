@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=${BASE_IMAGE:-registry.access.redhat.com/ubi8/openjdk-11-runtime:1.17-5}
+ARG BASE_IMAGE=${BASE_IMAGE:-registry.access.redhat.com/ubi8/openjdk-17-runtime:1.18-2.1705573231}
 FROM ${BASE_IMAGE}
 
 LABEL base-image=${BASE_IMAGE}

@@ -50,7 +50,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -60,8 +59,6 @@ import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 /**
@@ -90,6 +87,8 @@ public class BankIDServiceTest {
     private BankIDRelyingPartyConfig bankIDRelyingPartyConfig;
     @Mock
     private AuditService auditService;
+    @Mock
+    private Clock clock;
 
     @InjectMocks
     private BankIDService bankIDService;
@@ -162,68 +161,65 @@ public class BankIDServiceTest {
     @Test
     public void collectPending() throws SignatureParseException {
         // Mock time
-        Clock spyClock = spy(Clock.class);
-        try (MockedStatic<Clock> clockMock = mockStatic(Clock.class)) {
-            clockMock.when(Clock::systemUTC).thenReturn(spyClock);
-            when(spyClock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME));
+        when(this.clock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME));
 
-            // Mock rp APi
-            CollectResponse collectResponse = new CollectResponse();
-            collectResponse.setOrderRef("orderInfo123");
-            collectResponse.setStatus("pending");
-            collectResponse.setHintCode("outstandingTransaction");
-            when(this.rpApi.collect(Mockito.anyString())).thenReturn(collectResponse);
+        // Mock rp APi
+        CollectResponse collectResponse = new CollectResponse();
+        collectResponse.setOrderRef("orderInfo123");
+        collectResponse.setStatus("pending");
+        collectResponse.setHintCode("outstandingTransaction");
+        when(this.rpApi.collect(Mockito.anyString())).thenReturn(collectResponse);
 
-            BankIDTransaction transaction =
-                new BankIDTransaction(
-                    "orderInfo123",
-                    "67df3917-fa0d-44e5-b327-edcc928297f8",
-                    "d28db9a7-4cde-429e-a983-359be676944c",
-                    "autoStartToken"
-                );
+        BankIDTransaction transaction =
+            new BankIDTransaction(
+                "orderInfo123",
+                "67df3917-fa0d-44e5-b327-edcc928297f8",
+                "d28db9a7-4cde-429e-a983-359be676944c",
+                "autoStartToken",
+                Instant.ofEpochSecond(FAKE_TIME)
+            );
 
-            CollectResult response = this.bankIDService.collect(transaction);
+        CollectResult response = this.bankIDService.collect(transaction);
 
-            // Assert first collect
-            assertEquals("outstandingTransaction", response.getHintCode());
-            assertEquals(Status.PENDING, response.getStatus());
-            assertEquals(
-                "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.0.dc69358e712458a66a7525beef148ae8526b1c71610eff2c16cdffb4cdac9bf8",
-                response.getQrCode());
+        // Assert first collect
+        assertEquals("outstandingTransaction", response.getHintCode());
+        assertEquals(Status.PENDING, response.getStatus());
+        assertEquals(
+            "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.0.dc69358e712458a66a7525beef148ae8526b1c71610eff2c16cdffb4cdac9bf8",
+            response.getQrCode());
 
-            // Fake 1-second sleep
-            when(spyClock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME + 1));
+        // Fake 1-second sleep
+        when(this.clock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME + 1));
 
-            // Call collect
-            response = this.bankIDService.collect(response.getTransaction());
+        // Call collect
+        response = this.bankIDService.collect(response.getTransaction());
 
-            // Assert second collect.
-            assertEquals("outstandingTransaction", response.getHintCode());
-            assertEquals(Status.PENDING, response.getStatus());
-            assertEquals(
-                "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.1.949d559bf23403952a94d103e67743126381eda00f0b3cbddbf7c96b1adcbce2",
-                response.getQrCode());
+        // Assert second collect.
+        assertEquals("outstandingTransaction", response.getHintCode());
+        assertEquals(Status.PENDING, response.getStatus());
+        assertEquals(
+            "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.1.949d559bf23403952a94d103e67743126381eda00f0b3cbddbf7c96b1adcbce2",
+            response.getQrCode());
 
-            // Verify only one collect
-            Mockito.verify(this.rpApi, Mockito.times(1)).collect(Mockito.anyString());
+        // Verify only one collect
+        Mockito.verify(this.rpApi, Mockito.times(1)).collect(Mockito.anyString());
 
-            // Fake 1-second sleep
-            when(spyClock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME + 2));
+        // Fake 1-second sleep
+        when(this.clock.instant()).thenReturn(Instant.ofEpochSecond(FAKE_TIME + 2));
 
-            // Call collect
-            response = this.bankIDService.collect(response.getTransaction());
+        // Call collect
+        response = this.bankIDService.collect(response.getTransaction());
 
-            // Assert second collect.
-            assertEquals("outstandingTransaction", response.getHintCode());
-            assertEquals(Status.PENDING, response.getStatus());
-            assertEquals(
-                "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.2.a9e5ec59cb4eee4ef4117150abc58fad7a85439a6a96ccbecc3668b41795b3f3",
-                response.getQrCode());
-            assertNull(response.getCompletionResult());
+        // Assert second collect.
+        assertEquals("outstandingTransaction", response.getHintCode());
+        assertEquals(Status.PENDING, response.getStatus());
+        assertEquals(
+            "bankid.67df3917-fa0d-44e5-b327-edcc928297f8.2.a9e5ec59cb4eee4ef4117150abc58fad7a85439a6a96ccbecc3668b41795b3f3",
+            response.getQrCode());
+        assertNull(response.getCompletionResult());
 
-            // Verify only one collect
-            Mockito.verify(this.rpApi, Mockito.times(2)).collect(Mockito.anyString());
-        }
+        // Verify only one collect
+        Mockito.verify(this.rpApi, Mockito.times(2)).collect(Mockito.anyString());
     }
 
     /**
@@ -239,7 +235,8 @@ public class BankIDServiceTest {
             "orderInfo123",
             "67df3917-fa0d-44e5-b327-edcc928297f8",
             "d28db9a7-4cde-429e-a983-359be676944c",
-            "autoStartToken"
+            "autoStartToken",
+            Instant.now()
         );
 
         CollectResult response = this.bankIDService.collect(transaction);
@@ -262,7 +259,8 @@ public class BankIDServiceTest {
             "orderInfo123",
             "67df3917-fa0d-44e5-b327-edcc928297f8",
             "d28db9a7-4cde-429e-a983-359be676944c",
-            "autoStartToken"
+            "autoStartToken",
+            Instant.now()
         );
 
         CollectResult response = this.bankIDService.collect(transaction);
@@ -295,7 +293,8 @@ public class BankIDServiceTest {
             "orderInfo123",
             "67df3917-fa0d-44e5-b327-edcc928297f8",
             "d28db9a7-4cde-429e-a983-359be676944c",
-            "autoStartToken"
+            "autoStartToken",
+            Instant.now()
         );
 
         CollectResult response = this.bankIDService.collect(transaction);
@@ -334,7 +333,8 @@ public class BankIDServiceTest {
             "orderInfo123",
             "67df3917-fa0d-44e5-b327-edcc928297f8",
             "d28db9a7-4cde-429e-a983-359be676944c",
-            "autoStartToken"
+            "autoStartToken",
+            Instant.now()
         );
 
         CollectResult response = this.bankIDService.collect(transaction);
@@ -363,7 +363,8 @@ public class BankIDServiceTest {
             "orderInfo123",
             "67df3917-fa0d-44e5-b327-edcc928297f8",
             "d28db9a7-4cde-429e-a983-359be676944c",
-            "autoStartToken"
+            "autoStartToken",
+            Instant.now()
         );
 
         CollectResult response = this.bankIDService.collect(transaction);

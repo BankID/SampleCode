@@ -1,52 +1,34 @@
 {
   "name": "bankid-demo",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "axios": "^1.4.0",
-    "classnames": "^2.3.1",
-    "is-mobile": "^3.1.1",
-    "qrcode": "^1.5.1",
+    "axios": "^1.6.5",
+    "classnames": "^2.5.1",
+    "is-mobile": "^4.0.0",
+    "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-markdown": "^8.0.3",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "remark-gfm": "^3.0.1"
+    "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.21.2",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.23.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-license-header": "^0.6.0",
-    "eslint-plugin-react": "^7.31.8",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-basic-ssl": "^1.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "nth-check": "2.1.1",
-    "webpack": "^5.76.0"
-  },
-  "scripts": {
-    "start": "HTTPS=true react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "overrides": {
-    "nth-check": "2.1.1",
-    "resolve-url-loader": "5.0.0"
-  },
-  "proxy": "https://localhost:8443"
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.0.8"
+  }
 }

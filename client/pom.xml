@@ -22,7 +22,7 @@
   <name>Code Front Client Project</name>
 
   <properties>
-    <client.public_url>/</client.public_url>
+    <client.public_url></client.public_url>
   </properties>
 
   <build>
@@ -174,7 +174,7 @@
                   <arguments>run build</arguments>
                   <environmentVariables>
                     <CI>true</CI>
-                    <PUBLIC_URL>${client.public_url}</PUBLIC_URL>
+                    <VITE_PUBLIC_URL>${client.public_url}</VITE_PUBLIC_URL>
                   </environmentVariables>
                 </configuration>
               </execution>
@@ -193,42 +193,6 @@
                 </resource>
               </webResources>
             </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- Run unit tests -->
-    <profile>
-      <id>test</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <version>${version.maven.frontend.plugin}</version>
-            <configuration>
-              <installDirectory>../node</installDirectory>
-            </configuration>
-            <executions>
-              <!-- Run unit tests -->
-              <execution>
-                <id>npm test</id>
-                <goals>
-                  <goal>npm</goal>
-                </goals>
-                <phase>test</phase>
-                <configuration>
-                  <arguments>run test</arguments>
-                  <environmentVariables>
-                    <CI>true</CI>
-                  </environmentVariables>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>

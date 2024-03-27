@@ -32,31 +32,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import { useEffect } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Axios from 'axios';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 
-import Contexts from './contexts/Contexts';
-import Header from './components/Header/Header';
-import api from './api';
-import Body from './Body';
+import './styling/index.css';
+import App from './App'
 
-const App = () => {
-  // On launch we call the API to get a CSRF-token.
-  useEffect(() => {
-    api.start().then((response) => {
-      Axios.defaults.headers.common['X-CSRF-TOKEN'] = response.data.csrfToken;
-    });
-  }, []);
-
-  return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Contexts>
-        <Header />
-        <Body />
-      </Contexts>
-    </BrowserRouter>
-  );
-};
-
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <App />,
+);

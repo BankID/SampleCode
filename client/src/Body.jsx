@@ -32,13 +32,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import classNames from 'classnames';
 
-import './styling/index.css';
-import App from './App';
+import MainContent from './components/MainContent/MainContent';
+import Footer from './components/Footer/Footer';
+import Sidebar from './components/Sidebar/Sidebar';
+import Router from './router';
+import { useSidebar } from './contexts/sidebar/Sidebar';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <App />,
-);
+const Body = () => {
+  const { isOpen: sidebarOpen } = useSidebar();
+
+  return (
+
+    <div className={classNames('content', sidebarOpen && 'sidebar-open')}>
+      <div className='content-left'>
+
+        <MainContent>
+          <Router />
+        </MainContent>
+
+        <Footer />
+
+      </div>
+
+      <Sidebar />
+    </div>
+  );
+};
+
+export default Body;

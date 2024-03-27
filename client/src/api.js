@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Axios from 'axios';
 
-const BASE_URL = `${window.location.origin}${process.env.PUBLIC_URL}/api`;
+const BASE_URL = `${window.location.origin}${import.meta.env.VITE_PUBLIC_URL}/api`;
 
 const start = () => Axios.get(
   `${BASE_URL}/start`,

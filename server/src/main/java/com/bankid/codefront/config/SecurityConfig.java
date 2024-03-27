@@ -39,7 +39,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 /**
  * WebSecurity config.
@@ -70,22 +72,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CsrfTokenRepository csrfTokenRepository = createCsrfTokenRepository();
+        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
 
-        http
-            .csrf()
-            .csrfTokenRepository(csrfTokenRepository);
-        http.anonymous();
+        http.csrf(
+            csrfConfigurer -> csrfConfigurer
+                .csrfTokenRepository(csrfTokenRepository)
+                .csrfTokenRequestHandler(requestHandler)
+        );
         http.authorizeHttpRequests((requests) -> requests
             .anyRequest().permitAll()
         );
-        http.headers()
-            .xssProtection()
-                .xssProtectionEnabled(true).and()
-            .httpStrictTransportSecurity()
-                .includeSubDomains(true)
-                .maxAgeInSeconds(STRICT_TRANSPORT_MAX_AGE).and()
-            .contentTypeOptions().and()
-            .contentSecurityPolicy(this.headersConfig.getCsp());
+        http.headers(
+            headersConfig ->
+                headersConfig
+                    .httpStrictTransportSecurity(
+                        transportSecurity -> transportSecurity
+                            .includeSubDomains(true)
+                            .maxAgeInSeconds(STRICT_TRANSPORT_MAX_AGE)
+                    )
+                    .xssProtection(
+                        xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                    )
+                    .contentSecurityPolicy(csp -> csp.policyDirectives(this.headersConfig.getCsp()))
+            );
         return http.build();
     }
 

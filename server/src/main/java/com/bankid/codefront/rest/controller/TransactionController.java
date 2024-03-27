@@ -54,7 +54,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -70,20 +72,24 @@ public class TransactionController {
     private final BankIDService bankIDService;
     private final TransactionControllerMetrics metrics;
     private final SessionValue sessionValue;
+    private final Clock clock;
 
     /**
      * Initialize the Transaction Controller class.
      * @param bankIDService         the BankId Service.
      * @param metrics               the metrics helper.
      * @param sessionValue          the session value.
+     * @param clock                 the clock.
      */
     public TransactionController(
         BankIDService bankIDService,
         TransactionControllerMetrics metrics,
-        SessionValue sessionValue) {
+        SessionValue sessionValue,
+        Clock clock) {
         this.bankIDService = bankIDService;
         this.metrics = metrics;
         this.sessionValue = sessionValue;
+        this.clock = clock;
     }
 
     /**
@@ -260,11 +266,11 @@ public class TransactionController {
             this.metrics.successCollect(System.currentTimeMillis() - startTime);
             if (collectResult.getStatus() == Status.COMPLETE) {
                 this.metrics.finalizedTransaction(sessionTransaction.getStartTime()
-                        .until(Instant.now(), ChronoUnit.SECONDS));
+                        .until(Instant.now(this.clock), ChronoUnit.SECONDS));
             }
             if (collectResult.getStatus() == Status.FAILED) {
                 this.metrics.failedTransaction(sessionTransaction.getStartTime()
-                        .until(Instant.now(), ChronoUnit.SECONDS));
+                        .until(Instant.now(this.clock), ChronoUnit.SECONDS));
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(new CheckResponse(

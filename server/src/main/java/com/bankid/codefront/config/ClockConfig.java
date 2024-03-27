@@ -1,5 +1,4 @@
 /*
-
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -32,33 +31,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import classNames from 'classnames';
+package com.bankid.codefront.config;
 
-import MainContent from './components/MainContent/MainContent';
-import Footer from './components/Footer/Footer';
-import Sidebar from './components/Sidebar/Sidebar';
-import Router from './router';
-import { useSidebar } from './contexts/sidebar/Sidebar';
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-const App = () => {
-  const { isOpen: sidebarOpen } = useSidebar();
+import java.time.Clock;
 
-  return (
+/**
+ * Clock configuration.
+ */
+@Configuration
+public class ClockConfig {
 
-    <div className={classNames('content', sidebarOpen && 'sidebar-open')}>
-      <div className='content-left'>
-
-        <MainContent>
-          <Router />
-        </MainContent>
-
-        <Footer />
-
-      </div>
-
-      <Sidebar />
-    </div>
-  );
-};
-
-export default App;
+    /**
+     * The clock bean. Used for easier testing.
+     * @return the clock.
+     */
+    @Bean
+    Clock clock() {
+        return Clock.systemDefaultZone();
+    }
+}

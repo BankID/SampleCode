@@ -58,6 +58,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
@@ -74,21 +75,25 @@ public class BankIDService {
     private final RpApi rpApi;
     private final BankIDRelyingPartyConfig bankIDRelyingPartyConfig;
     private final AuditService auditService;
+    private final Clock clock;
 
     /**
      * Initialize the BankID Service class.
      * @param rpApi         the bankId api.
      * @param bankIDRelyingPartyConfig the bankId config.
      * @param auditService  the auditService.
+     * @param clock         the clock used for easier testing.
      */
     public BankIDService(
         RpApi rpApi,
         BankIDRelyingPartyConfig bankIDRelyingPartyConfig,
-        AuditService auditService
+        AuditService auditService,
+        Clock clock
     ) {
         this.rpApi = rpApi;
         this.bankIDRelyingPartyConfig = bankIDRelyingPartyConfig;
         this.auditService = auditService;
+        this.clock = clock;
 
         // Check that HmacSHA256 exists
         try {
@@ -155,7 +160,8 @@ public class BankIDService {
             startTransaction.getOrderRef(),
             startTransaction.getQrStartToken(),
             startTransaction.getQrStartSecret(),
-            startTransaction.getAutoStartToken()
+            startTransaction.getAutoStartToken(),
+            Instant.now(this.clock)
         );
     }
 
@@ -205,7 +211,8 @@ public class BankIDService {
             startTransaction.getOrderRef(),
             startTransaction.getQrStartToken(),
             startTransaction.getQrStartSecret(),
-            startTransaction.getAutoStartToken()
+            startTransaction.getAutoStartToken(),
+            Instant.now(this.clock)
         );
     }
 
@@ -232,7 +239,7 @@ public class BankIDService {
             }
 
              transaction.setLastCollectResponse(collectResponse);
-             transaction.setLastCollect(Instant.now());
+             transaction.setLastCollect(Instant.now(this.clock));
              transaction.setStatus(status);
         } else {
             collectResponse = transaction.getLastCollectResponse();
@@ -297,7 +304,7 @@ public class BankIDService {
         }
 
         // Time since last collect
-        long secondsSinceLastCheck = transaction.getLastCollect().until(Instant.now(), ChronoUnit.SECONDS);
+        long secondsSinceLastCheck = transaction.getLastCollect().until(Instant.now(this.clock), ChronoUnit.SECONDS);
 
         // Only call RP api every two seconds and if last result was pending.
         return secondsSinceLastCheck > 1
@@ -311,7 +318,9 @@ public class BankIDService {
      */
     private String createQRData(BankIDTransaction transaction) {
         try {
-            String qrTime = Long.toString(transaction.getStartTime().until(Instant.now(), ChronoUnit.SECONDS));
+            String qrTime = Long.toString(
+                transaction.getStartTime().until(Instant.now(this.clock), ChronoUnit.SECONDS)
+            );
 
             Mac mac = Mac.getInstance(ALGORITHM);
             mac.init(new SecretKeySpec(transaction.getQrStartSecret().getBytes(StandardCharsets.US_ASCII), ALGORITHM));

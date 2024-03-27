@@ -61,13 +61,19 @@ public class BankIDTransaction implements Serializable {
      * @param qrStartToken the qr start token.
      * @param qrStartSecret the qr start secret.
      * @param autoStartToken the auto start token.
+     * @param startTime the start time.
      */
-    public BankIDTransaction(String orderRef, String qrStartToken, String qrStartSecret, String autoStartToken) {
+    public BankIDTransaction(
+        String orderRef,
+        String qrStartToken,
+        String qrStartSecret,
+        String autoStartToken,
+        Instant startTime) {
         this.transactionId = UUID.randomUUID().toString();
         this.orderRef = orderRef;
         this.qrStartToken = qrStartToken;
         this.qrStartSecret = qrStartSecret;
-        this.startTime = Instant.now();
+        this.startTime = startTime;
         this.autoStartToken = autoStartToken;
         this.status = Status.PENDING;
     }

@@ -43,9 +43,9 @@ management:
         enabled: true
       enabled: true
 
-  metrics:
-    export:
-      prometheus:
+  prometheus:
+    metrics:
+      export:
         enabled: true
 
   health:
@@ -62,9 +62,10 @@ spring:
   main:
     # Get rid of that banner to handle json-formatted logging
     banner-mode: 'off'
-  redis:
-    host: localhost
-    port: 6379
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 app:
   bankid:

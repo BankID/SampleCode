@@ -19,7 +19,7 @@ See [src/pages/ScanQR](src/pages/ScanQR/ScanQR.js) for more info.
 
 ### Autostart
 
-Autostart is used when the user visists a site on the same device as the BankID is located, either on a mobile device where the BankID app is installed or on a desktop device where the BankID Security Program is installed. The user simply clicks a button on the site which opens their BankID application where they can verify the authentication.
+Autostart is used when the user visits a site on the same device as the BankID is located, either on a mobile device where the BankID app is installed or on a desktop device where the BankID Security Program is installed. The user simply clicks a button on the site which opens their BankID application where they can verify the authentication.
 
 In the frontend we handle this by checking what type of device the user has and show different buttons depending on the scenario.
 
@@ -38,39 +38,19 @@ See [src/pages/OpenMobileApp](src/pages/OpenMobileApp/OpenMobileApp.js) for more
 
 ---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
 ### `npm run lint`
 
 Runs ESLint to statically analyze the code and look for problems.
 
-### `npm run lint:fix`
-
-Tries to automatically fix any problems found by ESLint.
-
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Learn more about Create React App
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
+Builds the app for production to the `build` folder.

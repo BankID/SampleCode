@@ -1,4 +1,5 @@
 /*
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Finansiell ID-Teknik BID AB
@@ -31,40 +32,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-package com.bankid.codefront.rest.controller;
+import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Axios from 'axios';
 
-import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import Contexts from './contexts/Contexts';
+import Header from './components/Header/Header';
+import api from './api';
+import Body from './Body';
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+const App = () => {
+  // On launch we call the API to get a CSRF-token.
+  useEffect(() => {
+    api.start().then((response) => {
+      Axios.defaults.headers.common['X-CSRF-TOKEN'] = response.data.csrfToken;
+    });
+  }, []);
 
-/**
- * Controller to handel SPA, all missing pages should be handeld by the SPA.
- */
-@Controller
-public class SpaController implements ErrorController {
+  return (
+    <BrowserRouter basename={import.meta.env.VITE_PUBLIC_URL}>
+      <Contexts>
+        <Header />
+        <Body />
+      </Contexts>
+    </BrowserRouter>
+  );
+};
 
-    /**
-     * Request mapping to handle error.
-     * @param request the request.
-     * @param response the response.
-     * @return the error response.
-     */
-    @RequestMapping("/error")
-    public Object error(HttpServletRequest request, HttpServletResponse response) {
-        // Forward all get not found errors to index.html
-        if (
-            response.getStatus() == HttpStatus.NOT_FOUND.value()
-                && request.getMethod().equalsIgnoreCase(HttpMethod.GET.name())
-        ) {
-            response.setStatus(HttpStatus.OK.value());
-            return "forward:/index.html";
-        } else {
-            return response;
-        }
-    }
-}
+export default App;
