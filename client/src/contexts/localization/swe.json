@@ -8,8 +8,8 @@
 
     "startpage-title": "Demo: Så fungerar BankID",
     "startpage-subtitle": "Se hur BankID fungerar när det satts upp på rätt sätt för högsta säkerhet och bästa kundupplevelse. BankID kan användas för identifiering och digital underskrift. Välj vilket flöde du vill se med knapparna nedan. I demon använder du ditt vanliga BankID.",
-    "startpage-test-identification": "Prova identifiering",
-    "startpage-test-signing": "Prova underskrift",
+    "startpage-test-identification": "Testa identifiering",
+    "startpage-test-signing": "Testa underskrift",
     
     "footer-about": "Om BankID demo",
     "footer-cookies": "Cookies",
@@ -23,16 +23,19 @@
     "identification": "Identifiering",
     "signing": "Underskrift",
 
-    "identification-text": "Text till \"Min avsikt\"",
+    "identification-text": "Text för identifiering",
     "signing-text": "Text för underskrift",
 
     "use-formatted-identification-text": "Använd formaterad text",
     "use-formatted-signing-text": "Använd formaterad text",
 
+    "formatting-guide": "Formatguide",
+    "formatting-guide-url": "https://www.bankid.com/utvecklare/guider/formatera-text",
+
     "start-test": "Starta testet",
 
-    "default-identify-text": "# Inloggning i BankID Demo\n\nDu som använder BankID i dina tjänster kan välja om du vill lägga in text och i vilka situationer.\n\nTydliga texter ger dina kunder en bättre överblick samt möjlighet att se om något inte stämmer, och då kunna undvika bedrägeriförsök.",
-    "default-sign-text": "# Jag skriver under hos BankID Demo\n\nI en underskrift ingår man avtal eller genomför förändringar och den är likvärdig en underskrift på ett fysiskt papper.",
+    "default-identify-text": "# Identifiering i BankID demo\n\nFöretag som använder BankID i sina tjänster kan lägga in text som beskriver avsikten med en identifiering. Texten följer alltid efter den fasta rubriken ”Min avsikt:”",
+    "default-sign-text": "# Underskrift i BankID demo\n\nFöretag som använder BankID i sina tjänster kan lägga in text som beskriver avsikten med en underskrift.",
 
     "identification-text-validation-error": "Du kan inte ha ett tomt textfält när formaterad text är aktiverat.",
     "sign-text-validation-error": "Du kan inte ha ett tomt textfält för underskrift.",
@@ -51,10 +54,11 @@
     "close": "Stäng",
     "try-again": "Försök igen",
     "cancel": "Avbryt",
+    "refresh": "Ladda om",
 
     "help-text": "Här kan du skriva in egna texter och ändra inställningar.",
 
-    "test-sign": "Prova underskrift",
+    "test-sign": "Testa underskrift",
 
     "identification-success": "Identifieringen lyckades!",
     "sign-success": "Underskriften lyckades!",
@@ -66,10 +70,10 @@
 
     "about-title": "Om BankID Demo",
     "about-subtitle": "I den här demon kan du se hur BankID fungerar när det integrerats rätt. Då får du en säker och bra användarupplevelse. BankID kan användas både för identifiering och för digitala underskrifter.",
-    "about-paragraphs-title-1": "Prova identifiering",
-    "about-paragraphs-body-1": "När du provar identifiering ser du hur användaren upplever flödet. Du kan välja att  skriva in en beskrivande text för avsikten med identifieringen. Det ökar tydligheten för dina kunder och gör det enklare att upptäcka om något inte stämmer. Texten börjar automatiskt med “Min avsikt:”. I demon kan du prova att lägga in och formatera din egen text och se hur det skulle se ut.",
-    "about-paragraphs-title-2": "Prova underskrift",
-    "about-paragraphs-body-2": "Digitala underskrifter med BankID är lika giltiga som fysiska. Prova flödet ur ett användarperspektiv. Du kan välja att skriva in text som förklarar vad personen skriver under. Det ökar tydligheten och gör det enklare att upptäcka om något inte stämmer. I demon kan du prova att lägga in och formatera din egen text och se hur det skulle se ut.",
+    "about-paragraphs-title-1": "Testa identifiering",
+    "about-paragraphs-body-1": "När du testar identifiering ser du hur användaren upplever flödet. Du kan välja att skriva in en beskrivande text för avsikten med identifieringen. Det ökar tydligheten för dina kunder och gör det enklare att upptäcka om något inte stämmer. Texten börjar automatiskt med “Min avsikt:”. I demon kan du testa att lägga in och formatera din egen text och se hur det skulle se ut.",
+    "about-paragraphs-title-2": "Testa underskrift",
+    "about-paragraphs-body-2": "Digitala underskrifter med BankID är lika giltiga som fysiska. Testa flödet ur ett användarperspektiv. Du kan välja att skriva in text som förklarar vad personen skriver under. Det ökar tydligheten och gör det enklare att upptäcka om något inte stämmer. I demon kan du testa att lägga in och formatera din egen text och se hur det skulle se ut.",
     "about-paragraphs-title-3": "Koden finns på GitHub",
     "about-paragraphs-body-3": "För att det ska bli så enkelt som möjligt för dig att få en bra och säker integration av BankID i dina tjänster kan du, dina utvecklare eller den integratör du jobbar med hämta koden direkt från GitHub.",
 
@@ -99,6 +103,8 @@
     "hintcode-alreadyInProgress": "En identifiering eller underskrift för det här personnumret är redan påbörjad. Försök igen.",
     "hintcode-requestTimeout": "Något gick fel. Försök igen.",
     "hintcode-maintenance": "Något gick fel. Försök igen.",
-    "hintcode-internalError": "Något gick fel. Försök igen."
+    "hintcode-internalError": "Något gick fel. Försök igen.",
+
+    "error-message-invalidCsrfToken": "Din session har löpt ut. Ladda om sidan."
 
 }

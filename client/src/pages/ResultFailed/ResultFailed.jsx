@@ -44,7 +44,7 @@ const ResultFailed = () => {
   const { translate } = useLocalization();
   const location = useLocation();
   const testingType = (location.state || {}).testingType || 'identify';
-  const { statusHintCode, flowType } = location.state || {};
+  const { statusHintCode, flowType, errorType } = location.state || {};
 
   return (
     <div className='page-container'>
@@ -61,15 +61,28 @@ const ResultFailed = () => {
           </h3>
 
           <p className='guide-description'>
-            { translate(`hintcode-${flowType}-${statusHintCode || 'unknown'}`, `hintcode-${statusHintCode || 'unknown'}`) }
+            {translate(
+              `error-message-${errorType}`,
+              `hintcode-${flowType}-${statusHintCode || 'unknown'}`,
+              `hintcode-${statusHintCode || 'unknown'}`
+            )}
           </p>
 
           <div className='flex-col-center'>
-            <StartButton
-              testingType={testingType}
-              text={translate('try-again')}
-              buttonType='secondary'
-            />
+            {errorType === 'invalidCsrfToken' ? (
+              <a
+                href={URLS.start}
+                className='button secondary'
+              >
+                {translate('refresh')}
+              </a>
+            ) : (
+              <StartButton
+                testingType={testingType}
+                text={translate('try-again')}
+                buttonType='secondary'
+              />
+            )}
             <Link
               to={URLS.start}
               className='button none'

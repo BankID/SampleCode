@@ -40,6 +40,7 @@ import { useLocalization } from '../../contexts/localization/Localization';
 import Button from '../Button/Button';
 import FoldableContent from '../FoldableContent/FoldableContent';
 import StartButton from '../StartButton/StartButton';
+import externalLinkIcon from '../../styling/images/system-external-link.svg';
 
 const Settings = () => {
   const { translate, activeLanguage } = useLocalization();
@@ -79,32 +80,38 @@ const Settings = () => {
 
   return (
     <>
-      <FoldableContent title={translate('identification')}>
-        <span
-          className='setting-title'
-        >
-          {translate('identification-text')}
-        </span>
-
+      <FoldableContent title={translate('identification-text')}>
         <textarea
           className='setting-textarea'
           value={identificationText}
           onChange={(e) => setIdentificationText(e.target.value)}
         />
 
-        <label
-          className='checkbox-label'
-          htmlFor='formattedIdentificationTextCheckbox'
-        >
-          <input
-            id='formattedIdentificationTextCheckbox'
-            type='checkbox'
-            className='checkbox'
-            checked={formattedIdentificationText}
-            onChange={(e) => setFormattedIdentificationText(e.target.checked)}
-          />
-          {translate('use-formatted-identification-text')}
-        </label>
+        <div className='sidebar-settings-formatting-container'>
+          <label
+            className='checkbox-label'
+            htmlFor='formattedIdentificationTextCheckbox'
+          >
+            <input
+              id='formattedIdentificationTextCheckbox'
+              type='checkbox'
+              className='checkbox'
+              checked={formattedIdentificationText}
+              onChange={(e) => setFormattedIdentificationText(e.target.checked)}
+            />
+            {translate('use-formatted-identification-text')}
+          </label>
+
+          <a
+            href={translate('formatting-guide-url')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sidebar-settings-link"
+          >
+            {translate('formatting-guide')}
+            <img src={externalLinkIcon} alt='' />
+          </a>
+        </div>
 
         <div className='button-row space-between'>
           <Button
@@ -124,32 +131,37 @@ const Settings = () => {
 
       </FoldableContent>
 
-      <FoldableContent title={translate('signing')}>
-        <span
-          className='setting-title'
-        >
-          {translate('signing-text')}
-        </span>
-
+      <FoldableContent title={translate('signing-text')}>
         <textarea
           className='setting-textarea'
           value={signText}
           onChange={(e) => setSignText(e.target.value)}
         />
 
-        <label
-          className='checkbox-label'
-          htmlFor='formattedSignTextCheckbox'
-        >
-          <input
-            id='formattedSignTextCheckbox'
-            type='checkbox'
-            className='checkbox'
-            checked={formattedSignText}
-            onChange={(e) => setFormattedSignText(e.target.checked)}
-          />
-          {translate('use-formatted-signing-text')}
-        </label>
+        <div className='sidebar-settings-formatting-container'>
+          <label
+            className='checkbox-label'
+            htmlFor='formattedSignTextCheckbox'
+          >
+            <input
+              id='formattedSignTextCheckbox'
+              type='checkbox'
+              className='checkbox'
+              checked={formattedSignText}
+              onChange={(e) => setFormattedSignText(e.target.checked)}
+              />
+            {translate('use-formatted-signing-text')}
+          </label>
+          <a
+            href={translate('formatting-guide-url')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sidebar-settings-link"
+          >
+            {translate('formatting-guide')}
+            <img src={externalLinkIcon} alt='' />
+          </a>
+        </div>
 
         <div className='button-row space-between'>
           <Button

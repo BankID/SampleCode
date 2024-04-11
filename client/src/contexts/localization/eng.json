@@ -8,8 +8,8 @@
 
     "startpage-title": "Demo: How BankID works",
     "startpage-subtitle": "View how BankID works when it's been set up properly for optimal security and user experience. BankID can be used for identification and digital signatures. Select the flow you wish to see with the buttons below. In the demo you use your normal BankID.",
-    "startpage-test-identification": "Try Identification",
-    "startpage-test-signing": "Try Signing",
+    "startpage-test-identification": "Test identification",
+    "startpage-test-signing": "Test signing",
     
     "footer-about": "About BankID demo",
     "footer-cookies": "Cookies",
@@ -23,16 +23,19 @@
     "identification": "Identification",
     "signing": "Signing",
 
-    "identification-text": "Text for \"My purpose\"",
-    "signing-text": "Signature text",
+    "identification-text": "Text for identification",
+    "signing-text": "Text for signature",
 
     "use-formatted-identification-text": "Use formatted text",
     "use-formatted-signing-text": "Use formatted text",
 
+    "formatting-guide": "Format guide",
+    "formatting-guide-url": "https://www.bankid.com/en/utvecklare/guider/formatera-text",
+
     "start-test": "Start test",
 
-    "default-identify-text": "# Identification in BankID Demo\n\nI identify myself with BankID Demo",
-    "default-sign-text": "# Signing with BankID Demo\n\nI sign with BankId Demo",
+    "default-identify-text": "# Identification in BankID demo\n\nCompanies using BankID in their services can add a text describing the intent with an identification. The text always follows the fixed heading “My intent:”",
+    "default-sign-text": "# Signature in BankID demo\n\nCompanies using BankID in their services can add a text describing the intent with a signature.",
 
     "identification-text-validation-error": "You can't have an empty text field when formatted text is activated.",
     "sign-text-validation-error": "You can't have an empty text field for signing.",
@@ -51,10 +54,11 @@
     "close": "Close",
     "try-again": "Try again",
     "cancel": "Cancel",
+    "refresh": "Reload",
 
     "help-text": "Here you can add your own texts and change settings.",
 
-    "test-sign": "Try signing",
+    "test-sign": "Test signing",
 
     "identification-success": "Success!",
     "sign-success": "Success!",
@@ -66,10 +70,10 @@
 
     "about-title": "About BankID Demo",
     "about-subtitle": "In this demo you can see how BankID works when it's properly integrated and provides a secure and good user experience. BankID can be used both for identification and digital signatures.",
-    "about-paragraphs-title-1": "Try identification",
-    "about-paragraphs-body-1": "When you try identification, you see how the user experiences the flow. You can choose to enter a descriptive text for the purpose of the identification. It increases clarity for your customers and makes it easier to discover if something is not right. The text automatically starts with “My intention:”. In the demo, you can try inserting and formatting your own text and see how it would look.",
-    "about-paragraphs-title-2": "Try signature",
-    "about-paragraphs-body-2": "Digital signatures with BankID are just as valid as physical ones. Try the flow from a user perspective. You can choose to enter text that explains what the customer is signing. It increases clarity and makes it easier to discover if something is not right. In the demo, you can try inserting and formatting the test and see how it would look.",
+    "about-paragraphs-title-1": "Test identification",
+    "about-paragraphs-body-1": "When you test identification, you see how the user experiences the flow. You can choose to enter a descriptive text for the purpose of the identification. It increases clarity for your customers and makes it easier to discover if something is not right. The text automatically starts with “My intention:”. In the demo, you can test inserting and formatting your own text and see how it would look.",
+    "about-paragraphs-title-2": "Test signature",
+    "about-paragraphs-body-2": "Digital signatures with BankID are just as valid as physical ones. Test the flow from a user perspective. You can choose to enter text that explains what the customer is signing. It increases clarity and makes it easier to discover if something is not right. In the demo, you can test inserting and formatting the test and see how it would look.",
     "about-paragraphs-title-3": "The code is available on GitHub",
     "about-paragraphs-body-3": "To make it as easy as possible for you to get a good and secure integration of BankID into your services, you, your developers or the integrator you work with can download the code directly from GitHub.",
 
@@ -99,6 +103,8 @@
     "hintcode-alreadyInProgress": "An identification or signing for this personal number is already started. Please try again.",
     "hintcode-requestTimeout": "Something went wrong. Please try again.",
     "hintcode-maintenance": "Something went wrong. Please try again.",
-    "hintcode-internalError": "Something went wrong. Please try again."
+    "hintcode-internalError": "Something went wrong. Please try again.",
+    
+    "error-message-invalidCsrfToken": "Your session has expired. Please reload the page."
 
 }

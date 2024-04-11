@@ -129,11 +129,17 @@ const init = ({
   onUpdate,
 }) => {
   // If anything bad happens, we navigate away to an error page.
-  const handleError = () => {
+  const handleError = (err) => {
+    let errorType;
+    if (err.response.status === 403) {
+      errorType = 'invalidCsrfToken';
+    }
+
     navigate(URLS.resultFailed, {
       state: {
         testingType,
         flowType,
+        errorType,
       },
     });
   };

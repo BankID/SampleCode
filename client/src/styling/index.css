@@ -332,6 +332,23 @@ h6 {
   cursor: pointer;
 }
 
+.sidebar-settings-formatting-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  row-gap: 8px;
+}
+
+.sidebar-settings-link {
+  color: white;
+}
+.sidebar-settings-link img {
+  height: 16px;
+  margin-left: 6px;
+}
+
 .sidebar-close-button {
   width: 20px;
   height: 20px;
@@ -469,10 +486,6 @@ h6 {
 
   display: flex;
   flex-direction: column;
-}
-
-.setting-title {
-  font-weight: bold;
 }
 
 .setting-textarea {
