@@ -48,7 +48,7 @@ public class CompletionData implements Serializable {
 
     private UserData user;
     private DeviceData device;
-    private SetUpData setUp;
+    private StepUpData stepUp;
     private String bankIdIssueDate;
     private String signature;
     private String ocspResponse;
@@ -86,19 +86,19 @@ public class CompletionData implements Serializable {
     }
 
     /**
-     * Returns the setup data.
-     * @return the setup data.
+     * Returns the stepUp data.
+     * @return the stepUp data.
      */
-    public SetUpData getSetUp() {
-        return this.setUp;
+    public StepUpData getStepUp() {
+        return this.stepUp;
     }
 
     /**
-     * Sets the setup data.
-     * @param setUp - the setup data.
+     * Sets the stepUp data.
+     * @param stepUp - the stepUp data.
      */
-    public void setSetUp(SetUpData setUp) {
-        this.setUp = setUp;
+    public void setStepUp(StepUpData stepUp) {
+        this.stepUp = stepUp;
     }
 
     /**
