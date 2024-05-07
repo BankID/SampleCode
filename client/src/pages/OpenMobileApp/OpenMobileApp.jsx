@@ -161,6 +161,7 @@ const OpenMobileApp = () => {
           {openBankIDUrl && (
             <a
               href={openBankIDUrl}
+              referrerPolicy="origin"
               className='button secondary guide-button'
             >
               {translate('open-bankid-app')}

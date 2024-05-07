@@ -36,10 +36,13 @@ package com.bankid.codefront.service;
 import com.bankid.codefront.bankid.relyingparty.RpApi;
 import com.bankid.codefront.bankid.relyingparty.signature.DigitalSignature;
 import com.bankid.codefront.bankid.relyingparty.signature.SignatureParseException;
+import com.bankid.codefront.config.AppConfig;
 import com.bankid.codefront.config.BankIDRelyingPartyConfig;
 import com.bankid.codefront.models.Base64String;
+import com.bankid.codefront.models.bankid.relyingparty.AdditionalWebData;
 import com.bankid.codefront.models.bankid.relyingparty.BankIDRequirements;
 import com.bankid.codefront.models.bankid.relyingparty.CollectResponse;
+import com.bankid.codefront.models.bankid.relyingparty.RiskRequirement;
 import com.bankid.codefront.models.bankid.relyingparty.StartAuthenticationRequest;
 import com.bankid.codefront.models.bankid.relyingparty.StartSignatureRequest;
 import com.bankid.codefront.models.bankid.relyingparty.StartTransactionResponse;
@@ -74,6 +77,7 @@ public class BankIDService {
     private final Logger logger = LoggerFactory.getLogger(BankIDService.class);
     private final RpApi rpApi;
     private final BankIDRelyingPartyConfig bankIDRelyingPartyConfig;
+    private final AppConfig appConfig;
     private final AuditService auditService;
     private final Clock clock;
 
@@ -81,17 +85,20 @@ public class BankIDService {
      * Initialize the BankID Service class.
      * @param rpApi         the bankId api.
      * @param bankIDRelyingPartyConfig the bankId config.
+     * @param appConfig     the app config.
      * @param auditService  the auditService.
      * @param clock         the clock used for easier testing.
      */
     public BankIDService(
         RpApi rpApi,
         BankIDRelyingPartyConfig bankIDRelyingPartyConfig,
+        AppConfig appConfig,
         AuditService auditService,
         Clock clock
     ) {
         this.rpApi = rpApi;
         this.bankIDRelyingPartyConfig = bankIDRelyingPartyConfig;
+        this.appConfig = appConfig;
         this.auditService = auditService;
         this.clock = clock;
 
@@ -112,6 +119,8 @@ public class BankIDService {
      * @param userVisibleDataFormat format of text visible to user.
      * @param userNonVisibleData optional non visible data.
      * @param pinCode require pinCode for authentication.
+     * @param userAgent the user agent of the web page.
+     * @param deviceIdentifier deviceIdentifier.
      * @return the transaction.
      */
     public BankIDTransaction authentication(
@@ -119,15 +128,24 @@ public class BankIDService {
         String userVisibleData,
         UserVisibleDataFormat userVisibleDataFormat,
         String userNonVisibleData,
-        Boolean pinCode
+        Boolean pinCode,
+        String userAgent,
+        String deviceIdentifier
     ) {
         StartAuthenticationRequest
             authenticationRequest = new StartAuthenticationRequest(clientIp);
+
+        // Include additional web data
+        AdditionalWebData webData = new AdditionalWebData(this.appConfig.getDomain(), userAgent, deviceIdentifier);
+        authenticationRequest.setWeb(webData);
 
         BankIDRequirements bankIDRequirements = this.bankIDRelyingPartyConfig.getAuthenticationRequirements();
         if (bankIDRequirements == null) {
             bankIDRequirements = new BankIDRequirements();
         }
+
+        // Only allow transactions with classified with risk low
+        bankIDRequirements.setRisk(RiskRequirement.LOW);
 
         bankIDRequirements.setPinCode(pinCode);
         authenticationRequest.setRequirement(bankIDRequirements);
@@ -172,6 +190,8 @@ public class BankIDService {
      * @param userVisibleDataFormat format of text visible to user.
      * @param userNonVisibleData optional non visible data.
      * @param pinCode require pinCode for signing.
+     * @param userAgent the user agent of the web page.
+     * @param deviceIdentifier deviceIdentifier.
      * @return the transaction.
      */
     public BankIDTransaction signing(
@@ -179,14 +199,24 @@ public class BankIDService {
         String userVisibleData,
         UserVisibleDataFormat userVisibleDataFormat,
         String userNonVisibleData,
-        Boolean pinCode
+        Boolean pinCode,
+        String userAgent,
+        String deviceIdentifier
     ) {
         StartSignatureRequest signatureRequest =
             new StartSignatureRequest(clientIp, new Base64String(base64Encode(userVisibleData)));
+
+        // Include additional web data
+        AdditionalWebData webData = new AdditionalWebData(this.appConfig.getDomain(), userAgent, deviceIdentifier);
+        signatureRequest.setWeb(webData);
+
         BankIDRequirements bankIDRequirements = this.bankIDRelyingPartyConfig.getSigningRequirements();
         if (bankIDRequirements == null) {
             bankIDRequirements = new BankIDRequirements();
         }
+
+        // Only allow transactions with classified with risk low
+        bankIDRequirements.setRisk(RiskRequirement.LOW);
 
         bankIDRequirements.setPinCode(pinCode);
 

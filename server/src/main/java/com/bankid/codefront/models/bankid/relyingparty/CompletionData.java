@@ -52,6 +52,7 @@ public class CompletionData implements Serializable {
     private String bankIdIssueDate;
     private String signature;
     private String ocspResponse;
+    private RiskLevel risk;
 
     /**
      * Returns the user data.
@@ -147,5 +148,13 @@ public class CompletionData implements Serializable {
      */
     public void setOcspResponse(String ocspResponse) {
         this.ocspResponse = ocspResponse;
+    }
+
+    /**
+     * Returns the risk level of the transaction.
+     * @return the risk level.
+     */
+    public RiskLevel getRisk() {
+        return this.risk;
     }
 }

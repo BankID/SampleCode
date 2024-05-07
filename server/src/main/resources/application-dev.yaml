@@ -23,7 +23,8 @@ management:
 
 app:
   bankid:
-
+    # Public url for the site
+    domain: localhost
     ##########################
     # BankID Relying Party settings
     #

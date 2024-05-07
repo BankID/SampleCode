@@ -34,7 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.bankid.codefront.models.bankid.relyingparty;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -49,26 +51,31 @@ public class CompletionDataTest {
     @Test
     public void deserializeCompleted() throws JsonProcessingException {
         String json =
-                "{\n"
-                    + "  \"user\":{\n"
-                    + "    \"personalNumber\":\"190000000000\",\n"
-                    + "    \"name\":\"Karl Karlsson\",\n"
-                    + "    \"givenName\":\"Karl\",\n"
-                    + "    \"surname\":\"Karlsson\"\n"
-                    + "  },\n"
-                    + "  \"device\":{\n"
-                    + "    \"ipAddress\":\"192.168.0.1\",\n"
-                    + "    \"uhi\":\"abc123\"\n"
-                    + "  },\n"
-                    + "  \"bankIdIssueDate\":\"2020-02-01\",\n"
-                    + "  \"setUp\":{\n"
-                    + "    \"mrtd\":true\n"
-                    + "  },\n"
-                    + "  \"signature\":\"base64 xml-dig-sig\", \n"
-                    + "  \"ocspResponse\":\"base64 ocsp response\"\n"
-                    + "}";
+                """
+                    {
+                        "user":{
+                          "personalNumber": "190000000000",
+                          "name": "Karl Karlsson",
+                          "givenName": "Karl",
+                          "surname": "Karlsson"
+                        },
+                        "device":{
+                          "ipAddress": "192.168.0.1",
+                          "uhi":"abc123"
+                        },
+                        "bankIdIssueDate": "2020-02-01",
+                        "setUp":{
+                          "mrtd": true
+                        },
+                        "signature": "base64 xml-dig-sig",
+                        "ocspResponse": "base64 ocsp response",
+                        "risk": "low"
+                    }
+                    """;
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+            .build();
         CompletionData response = mapper.readValue(json, CompletionData.class);
 
         Assertions.assertEquals("base64 xml-dig-sig", response.getSignature());
@@ -91,6 +98,7 @@ public class CompletionDataTest {
 
         String bankIdIssueDate = response.getBankIdIssueDate();
         Assertions.assertEquals("2020-02-01", bankIdIssueDate);
+        Assertions.assertEquals(RiskLevel.LOW, response.getRisk());
     }
 
     /**
@@ -100,29 +108,34 @@ public class CompletionDataTest {
     @Test
     public void ignoreUnknownProperties() throws JsonProcessingException {
         String json =
-                "{\n"
-                    + "  \"user\":{\n"
-                    + "    \"personalNumber\":\"190000000000\",\n"
-                    + "    \"name\":\"Karl Karlsson\",\n"
-                    + "    \"givenName\":\"Karl\",\n"
-                    + "    \"surname\":\"Karlsson\",\n"
-                    + "    \"unknownProperty\":\"propertyValue\"\n"
-                    + "  },\n"
-                    + "  \"device\":{\n"
-                    + "    \"ipAddress\":\"192.168.0.1\",\n"
-                    + "    \"uhi\":\"abc123\",\n"
-                    + "    \"unknownProperty\":\"propertyValue\"\n"
-                    + "  },\n"
-                    + "  \"bankIdIssueDate\":\"2020-02-01\",\n"
-                    + "  \"setUp\":{\n"
-                    + "    \"unknownProperty\":\"propertyValue\"\n"
-                    + "  },\n"
-                    + "  \"signature\":\"base64 xml-dig-sig\", \n"
-                    + "  \"ocspResponse\":\"base64 ocsp response\",\n"
-                    + "  \"unknownProperty\":\"propertyValue\"\n"
-                    + "}";
+            """
+            {
+                "user":{
+                  "personalNumber": "190000000000",
+                  "name": "Karl Karlsson",
+                  "givenName": "Karl",
+                  "surname": "Karlsson",
+                  "unknownProperty": "propertyValue"
+                },
+                "device":{
+                  "ipAddress": "192.168.0.1",
+                  "uhi":"abc123",
+                  "unknownProperty": "propertyValue"
+                },
+                "bankIdIssueDate": "2020-02-01",
+                "setUp":{
+                  "unknownProperty": "propertyValue"
+                },
+                "signature": "base64 xml-dig-sig",
+                "ocspResponse": "base64 ocsp response",
+                "risk": "low",
+                "unknownProperty": "propertyValue"
+            }
+            """;
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapper.builder()
+            .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+            .build();
         CompletionData response = mapper.readValue(json, CompletionData.class);
 
         Assertions.assertEquals("base64 xml-dig-sig", response.getSignature());
@@ -142,5 +155,6 @@ public class CompletionDataTest {
 
         SetUpData setUpData = response.getSetUp();
         Assertions.assertNull(setUpData.getMrtd());
+        Assertions.assertEquals(RiskLevel.LOW, response.getRisk());
     }
 }

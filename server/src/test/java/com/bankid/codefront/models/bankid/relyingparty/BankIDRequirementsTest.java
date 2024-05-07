@@ -130,4 +130,21 @@ public class BankIDRequirementsTest {
         // Verify
         Assertions.assertEquals("{}", json);
     }
+
+    /**
+     * Require risk at most level low.
+     * @throws Exception
+     */
+    @Test
+    public void toJsonRequirementRisk() throws Exception {
+        BankIDRequirements requirements = new BankIDRequirements();
+        requirements.setRisk(RiskRequirement.LOW);
+
+        // Act
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(requirements);
+
+        // Verify
+        Assertions.assertEquals("{\"risk\":\"LOW\"}", json);
+    }
 }

@@ -35,6 +35,7 @@ package com.bankid.codefront.service;
 
 import com.bankid.codefront.bankid.relyingparty.RpApi;
 import com.bankid.codefront.bankid.relyingparty.signature.SignatureParseException;
+import com.bankid.codefront.config.AppConfig;
 import com.bankid.codefront.config.BankIDRelyingPartyConfig;
 import com.bankid.codefront.models.bankid.relyingparty.BankIDRequirements;
 import com.bankid.codefront.models.bankid.relyingparty.CollectResponse;
@@ -86,6 +87,8 @@ public class BankIDServiceTest {
     @Mock
     private BankIDRelyingPartyConfig bankIDRelyingPartyConfig;
     @Mock
+    private AppConfig appConfig;
+    @Mock
     private AuditService auditService;
     @Mock
     private Clock clock;
@@ -104,8 +107,9 @@ public class BankIDServiceTest {
         when(this.rpApi.startAuthentication(Mockito.any(StartAuthenticationRequest.class))).thenReturn(
             startTransactionResponse);
         when(this.bankIDRelyingPartyConfig.getAuthenticationRequirements()).thenReturn(new BankIDRequirements());
+        when(this.appConfig.getDomain()).thenReturn("localhost");
 
-        BankIDTransaction response = this.bankIDService.authentication(CLIENT_IP, null, null, null, null);
+        BankIDTransaction response = this.bankIDService.authentication(CLIENT_IP, null, null, null, null, "curl", "id-123");
 
         assertEquals("orderInfo123", response.getOrderRef());
         assertEquals("autoStart", response.getAutoStartToken());
@@ -118,8 +122,9 @@ public class BankIDServiceTest {
     public void authenticationFailed() {
         when(this.rpApi.startAuthentication(Mockito.any(StartAuthenticationRequest.class))).thenReturn(null);
         when(this.bankIDRelyingPartyConfig.getAuthenticationRequirements()).thenReturn(new BankIDRequirements());
+        when(this.appConfig.getDomain()).thenReturn("localhost");
 
-        BankIDTransaction response = this.bankIDService.authentication(CLIENT_IP, null, null, null, null);
+        BankIDTransaction response = this.bankIDService.authentication(CLIENT_IP, null, null, null, null, "curl", "id-123");
 
         assertNull(response);
     }
@@ -134,8 +139,9 @@ public class BankIDServiceTest {
         startTransactionResponse.setOrderRef("orderInfo123");
         when(this.rpApi.startSignature(Mockito.any(StartSignatureRequest.class))).thenReturn(startTransactionResponse);
         when(this.bankIDRelyingPartyConfig.getSigningRequirements()).thenReturn(new BankIDRequirements());
+        when(this.appConfig.getDomain()).thenReturn("localhost");
 
-        BankIDTransaction response = this.bankIDService.signing(CLIENT_IP, "Sign this data", null, null, null);
+        BankIDTransaction response = this.bankIDService.signing(CLIENT_IP, "Sign this data", null, null, null, "curl", "id-123");
 
         assertEquals("orderInfo123", response.getOrderRef());
         assertEquals("autoStart", response.getAutoStartToken());
@@ -148,8 +154,9 @@ public class BankIDServiceTest {
     public void signingFailed() {
         when(this.rpApi.startSignature(Mockito.any(StartSignatureRequest.class))).thenReturn(null);
         when(this.bankIDRelyingPartyConfig.getSigningRequirements()).thenReturn(new BankIDRequirements());
+        when(this.appConfig.getDomain()).thenReturn("localhost");
 
-        BankIDTransaction response = this.bankIDService.signing(CLIENT_IP, "Sign this data", null, null, null);
+        BankIDTransaction response = this.bankIDService.signing(CLIENT_IP, "Sign this data", null, null, null, "curl", "id-123");
 
         assertNull(response);
     }

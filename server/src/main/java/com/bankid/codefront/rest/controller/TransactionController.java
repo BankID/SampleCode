@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.bankid.codefront.rest.controller;
 
+import com.bankid.codefront.config.AppConfig;
 import com.bankid.codefront.models.service.BankIDTransaction;
 import com.bankid.codefront.models.service.CollectResult;
 import com.bankid.codefront.models.service.Status;
@@ -44,21 +45,26 @@ import com.bankid.codefront.rest.model.SignRequest;
 import com.bankid.codefront.rest.model.TransactionResponse;
 import com.bankid.codefront.service.BankIDService;
 import com.bankid.codefront.utils.CodeFrontWebApplicationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletRequest;
-
+import java.net.URI;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 /**
  * Handle BankID transaction.
@@ -66,12 +72,15 @@ import java.time.temporal.ChronoUnit;
 @RestController
 @RequestMapping("api/")
 public class TransactionController {
+    private static final String DEVICE_COOKIE_NAME = "__Secure-Device";
+    private static final int DEVICE_COOKIE_TTL = 399 * 24 * 60 * 60;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     private final BankIDService bankIDService;
     private final TransactionControllerMetrics metrics;
     private final SessionValue sessionValue;
+    private final AppConfig appConfig;
     private final Clock clock;
 
     /**
@@ -79,16 +88,19 @@ public class TransactionController {
      * @param bankIDService         the BankId Service.
      * @param metrics               the metrics helper.
      * @param sessionValue          the session value.
+     * @param appConfig             the app configuration.
      * @param clock                 the clock.
      */
     public TransactionController(
         BankIDService bankIDService,
         TransactionControllerMetrics metrics,
         SessionValue sessionValue,
+        AppConfig appConfig,
         Clock clock) {
         this.bankIDService = bankIDService;
         this.metrics = metrics;
         this.sessionValue = sessionValue;
+        this.appConfig = appConfig;
         this.clock = clock;
     }
 
@@ -98,12 +110,16 @@ public class TransactionController {
      * @param body OBSERVE: Sent from client only for demonstration purposes,
      *             the values should be set by the backend in production code.
      * @param request httpRequest
+     * @param response httpResponse
+     * @param deviceIdentifier the identifier of the used device.
      * @return Return autoStartToken and OrderRef.
      */
     @PostMapping("/authentication")
     public ResponseEntity<TransactionResponse> startAuthentication(
         HttpServletRequest request,
-        @RequestBody AuthenticationRequest body
+        HttpServletResponse response,
+        @RequestBody AuthenticationRequest body,
+        @CookieValue(value = DEVICE_COOKIE_NAME, defaultValue = "", required = false) String deviceIdentifier
     ) {
         long startTime = System.currentTimeMillis();
 
@@ -126,15 +142,24 @@ public class TransactionController {
                 throw new CodeFrontWebApplicationException(HttpStatus.BAD_REQUEST, "Invalid input");
             }
 
+            checkDomain(request.getHeader(HttpHeaders.HOST));
+
             String clientIp = request.getRemoteAddr();
+
+            String deviceId = getOrCreateDeviceIdentifier(response, deviceIdentifier);
+
+            // User agent
+            String userAgent = request.getHeader("User-Agent");
 
             // Call service
             BankIDTransaction bankIDTransaction = this.bankIDService.authentication(
-                    clientIp,
-                    body.getUserVisibleData(),
-                    body.getUserVisibleDataFormat(),
-                    body.getUserNonVisibleData(),
-                    body.getAllowFingerprint()
+                clientIp,
+                body.getUserVisibleData(),
+                body.getUserVisibleDataFormat(),
+                body.getUserNonVisibleData(),
+                body.getAllowFingerprint(),
+                userAgent,
+                deviceId
             );
 
             if (bankIDTransaction == null) {
@@ -157,10 +182,12 @@ public class TransactionController {
                     ));
         } catch (CodeFrontWebApplicationException exc) {
             this.logger.info("CodeFrontWebApplicationException while authenticating the user: {} ", exc.toString());
+            this.metrics.failedStartAuthentication((System.currentTimeMillis() - startTime));
 
             throw exc;
         } catch (Exception exc) {
-            this.logger.error("Failed to start authentication ({}): {}", exc.getClass().toString(), exc.toString());
+            this.logger.error("Failed to start authentication ({}): {}", exc.getClass(), exc.toString());
+            this.metrics.failedStartAuthentication((System.currentTimeMillis() - startTime));
 
             throw new CodeFrontWebApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, "GENERAL_ERROR");
         }
@@ -172,10 +199,17 @@ public class TransactionController {
      * @param body OBSERVE: Sent from client only for demonstration purposes,
      *             the values should be set by the backend in production code.
      * @param request httpRequest
+     * @param response httpResponse
+     * @param deviceIdentifier the identifier of the used device.
      * @return Return autoStartToken and OrderRef.
      */
     @PostMapping("/sign")
-    public ResponseEntity<TransactionResponse> startSign(HttpServletRequest request, @RequestBody SignRequest body) {
+    public ResponseEntity<TransactionResponse> startSign(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody SignRequest body,
+        @CookieValue(value = DEVICE_COOKIE_NAME, defaultValue = "", required = false) String deviceIdentifier
+    ) {
         long startTime = System.currentTimeMillis();
         String clientIp = request.getRemoteAddr();
 
@@ -198,13 +232,22 @@ public class TransactionController {
                 throw new CodeFrontWebApplicationException(HttpStatus.BAD_REQUEST, "Invalid input");
             }
 
+            checkDomain(request.getHeader(HttpHeaders.HOST));
+
+            String deviceId = getOrCreateDeviceIdentifier(response, deviceIdentifier);
+
+            // User agent
+            String userAgent = request.getHeader("User-Agent");
+
             // Call service
             BankIDTransaction bankIDTransaction = this.bankIDService.signing(
-                    clientIp,
-                    body.getUserVisibleData(),
-                    body.getUserVisibleDataFormat(),
-                    body.getUserNonVisibleData(),
-                    body.getAllowFingerprint()
+                clientIp,
+                body.getUserVisibleData(),
+                body.getUserVisibleDataFormat(),
+                body.getUserNonVisibleData(),
+                body.getAllowFingerprint(),
+                userAgent,
+                deviceId
             );
 
             if (bankIDTransaction == null) {
@@ -227,10 +270,12 @@ public class TransactionController {
                     ));
         } catch (CodeFrontWebApplicationException exc) {
             this.logger.info("CodeFrontWebApplicationException while signing: {}", exc.toString());
+            this.metrics.failedStartSign((System.currentTimeMillis() - startTime));
 
             throw exc;
         } catch (Exception exc) {
-            this.logger.error("Failed to start sign ({}): {}", exc.getClass().toString(), exc.toString());
+            this.logger.error("Failed to start sign ({}): {}", exc.getClass(), exc.toString());
+            this.metrics.failedStartSign((System.currentTimeMillis() - startTime));
 
             throw new CodeFrontWebApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, "GENERAL_ERROR");
         }
@@ -282,7 +327,7 @@ public class TransactionController {
 
             throw exc;
         } catch (Exception exc) {
-            this.logger.error("Failed to check transaction ({}): {}", exc.getClass().toString(), exc.toString());
+            this.logger.error("Failed to check transaction ({}): {}", exc.getClass(), exc.toString());
 
             throw new CodeFrontWebApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, "GENERAL_ERROR");
         }
@@ -322,9 +367,55 @@ public class TransactionController {
 
             throw exc;
         } catch (Exception exc) {
-            this.logger.error("Failed to cancel transaction ({}): {}", exc.getClass().toString(), exc.toString());
+            this.logger.error("Failed to cancel transaction ({}): {}", exc.getClass(), exc.toString());
 
             throw new CodeFrontWebApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, "GENERAL_ERROR");
         }
+    }
+
+    /**
+     * Check that the user is accessing the site with same domain as the configuration.
+     * @param hostHeader host header in request.
+     */
+    private void checkDomain(String hostHeader) {
+        // Check if host header and configured domain match
+        try {
+            URI hostUri = URI.create(hostHeader);
+            if (!this.appConfig.getDomain().equalsIgnoreCase(hostUri.getHost())) {
+                this.logger.warn("Host header doesn't match configured host. Header: {}", hostHeader);
+                this.metrics.domainMismatch();
+            }
+        } catch (Exception e) {
+            this.logger.error("Failed to parse host header: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Get or create a device identifier and create or update the cookie.
+     * @param response httpResponse
+     * @param deviceIdentifier the identifier of the used device.
+     *
+     * @return the device identifier.
+     */
+    private String getOrCreateDeviceIdentifier(HttpServletResponse response, String deviceIdentifier) {
+        // Check if valid uuid or create a new.
+        try {
+            deviceIdentifier = UUID.fromString(deviceIdentifier).toString();
+        } catch (IllegalArgumentException e) {
+            deviceIdentifier = UUID.randomUUID().toString();
+        }
+
+        ResponseCookie responseCookie = ResponseCookie
+            .from(DEVICE_COOKIE_NAME, deviceIdentifier)
+            .secure(true)
+            .httpOnly(true)
+            .path("/")
+            .maxAge(DEVICE_COOKIE_TTL)
+            .sameSite("Strict")
+            .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+
+        return deviceIdentifier;
     }
 }

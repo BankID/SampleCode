@@ -47,7 +47,18 @@ public class StartAuthenticationRequest {
     private String userVisibleData;
     private String userVisibleDataFormat;
     private String userNonVisibleData;
+    /**
+     * If this is set to true a risk indicator will be included in the collect response when the order completes.
+     *
+     * <p>Risk indicator will be more effective if endUserIp and additional data is sent correctly.
+     * Your service will get information about risks regarding channel binding in the response
+     * among other risk indicators.
+     *
+     * <p>Boolean. Default is false
+     */
+    private Boolean returnRisk;
     private BankIDRequirements requirement;
+    private AdditionalWebData web;
 
     /**
      * Initialize the object.
@@ -55,6 +66,9 @@ public class StartAuthenticationRequest {
      */
     public StartAuthenticationRequest(String endUserIp) {
         this.endUserIp = endUserIp;
+
+        // Return risk information in response
+        this.returnRisk = true;
     }
 
     /**
@@ -119,6 +133,22 @@ public class StartAuthenticationRequest {
     }
 
     /**
+     * Returns returnRisk.
+     * @return true if risk information should be returned in collect.
+     */
+    public Boolean getReturnRisk() {
+        return this.returnRisk;
+    }
+
+    /**
+     * Sets returnRisk.
+     * @param returnRisk should return risk information in collect.
+     */
+    public void setReturnRisk(Boolean returnRisk) {
+        this.returnRisk = returnRisk;
+    }
+
+    /**
      * Returns the requirement.
      * @return the requirement.
      */
@@ -132,5 +162,21 @@ public class StartAuthenticationRequest {
      */
     public void setRequirement(BankIDRequirements requirement) {
         this.requirement = requirement;
+    }
+
+    /**
+     * Returns the additional web data.
+     * @return the additional web data.
+     */
+    public AdditionalWebData getWeb() {
+        return this.web;
+    }
+
+    /**
+     * Sets the additional web data.
+     * @param web the additional web data.
+     */
+    public void setWeb(AdditionalWebData web) {
+        this.web = web;
     }
 }

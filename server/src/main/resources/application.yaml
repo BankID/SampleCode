@@ -69,6 +69,8 @@ spring:
 
 app:
   bankid:
+    # Public domain for the site
+    domain:
     headers:
       # CSP Header
       csp: "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self';"

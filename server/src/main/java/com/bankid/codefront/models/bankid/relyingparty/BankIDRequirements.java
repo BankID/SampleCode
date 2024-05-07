@@ -124,6 +124,17 @@ public class BankIDRequirements {
     private String personalNumber;
 
     /**
+     * Set the acceptable risk level for the transaction.
+     * If the risk of the transaction is higher than the required limit the transaction will be blocked.
+     * String:
+     * · "LOW" – only accept low risk transactions
+     * · "MODERATE" – accept low and moderate risk transactions.
+     *
+     * <p>Risk indicator will be more effective if endUserIp and additional data is sent correctly
+     */
+    private RiskRequirement risk;
+
+    /**
      * Returns the card reader requirement.
      * @return the card reader requirement.
      */
@@ -201,5 +212,21 @@ public class BankIDRequirements {
      */
     public void setPersonalNumber(String personalNumber) {
         this.personalNumber = personalNumber;
+    }
+
+    /**
+     * Returns the risk requirement.
+     * @return the highest risk level to complete the transaction.
+     */
+    public RiskRequirement getRisk() {
+        return this.risk;
+    }
+
+    /**
+     * Sets the risk requirement.
+     * @param risk - the highest risk level to complete the transaction.
+     */
+    public void setRisk(RiskRequirement risk) {
+        this.risk = risk;
     }
 }

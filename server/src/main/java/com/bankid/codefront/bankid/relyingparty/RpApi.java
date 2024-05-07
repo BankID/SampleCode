@@ -42,7 +42,9 @@ import com.bankid.codefront.models.bankid.relyingparty.StartAuthenticationReques
 import com.bankid.codefront.models.bankid.relyingparty.StartSignatureRequest;
 import com.bankid.codefront.models.bankid.relyingparty.StartTransactionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -286,7 +288,9 @@ public class RpApi {
 
         try {
             CollectRequest request = new CollectRequest(orderRef);
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = JsonMapper.builder()
+                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .build();
             String jsonRequest = mapper.writeValueAsString(request);
 
             long startTime = System.currentTimeMillis();

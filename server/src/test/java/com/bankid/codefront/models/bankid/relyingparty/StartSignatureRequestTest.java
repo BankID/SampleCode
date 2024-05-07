@@ -60,7 +60,7 @@ public class StartSignatureRequestTest {
      */
     @Test
     public void simpleSerialize() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\"}";
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true}";
 
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
 
@@ -75,7 +75,7 @@ public class StartSignatureRequestTest {
      */
     @Test
     public void serializeRequirements() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\","
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true,"
             + "\"requirement\":{"
                 + "\"cardReader\":\"class1\","
                 + "\"certificatePolicies\":[\"1.2.3.4.5\"]"
@@ -96,11 +96,11 @@ public class StartSignatureRequestTest {
     }
 
     /**
-     * Serialize with requirements.
+     * Serialize with user visible data.
      */
     @Test
     public void serializeUserVisibleData() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\"}";
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true}";
 
         StartSignatureRequest request = new StartSignatureRequest(
                 "1.2.3.4",
@@ -114,14 +114,14 @@ public class StartSignatureRequestTest {
     }
 
     /**
-     * Serialize with requirements.
+     * Serialize with user visible data with format.
      */
     @Test
     public void serializeUserVisibleDataWithFormat() throws JsonProcessingException {
         String expected = "{\"endUserIp\":\"1.2.3.4\","
             + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"userVisibleDataFormat\":\"simpleMarkdownV1\""
-            + "}";
+            + "\"userVisibleDataFormat\":\"simpleMarkdownV1\","
+            + "\"returnRisk\":true}";
 
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
         request.setUserVisibleDataFormat("simpleMarkdownV1");
@@ -133,17 +133,41 @@ public class StartSignatureRequestTest {
     }
 
     /**
-     * Serialize with requirements.
+     * Serialize with user non visible data.
      */
     @Test
     public void serializeUserNonVisibleData() throws JsonProcessingException {
         String expected = "{\"endUserIp\":\"1.2.3.4\","
             + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"userNonVisibleData\":\"aW52aXNpYmxl\""
-            + "}";
+            + "\"userNonVisibleData\":\"aW52aXNpYmxl\","
+            + "\"returnRisk\":true}";
 
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
         request.setUserNonVisibleData(new Base64String(this.nonVisibleData));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        Assertions.assertEquals(expected, json);
+    }
+
+    /**
+     * Serialize with web.
+     */
+    @Test
+    public void serializeWeb() throws JsonProcessingException {
+        String expected = "{\"endUserIp\":\"1.2.3.4\","
+            + "\"userVisibleData\":\"dmlzaWJsZQ==\","
+            + "\"returnRisk\":true,"
+            + "\"web\":{"
+            + "\"referringDomain\":\"localhost\","
+            + "\"userAgent\":\"agent\","
+            + "\"deviceIdentifier\":\"did\""
+            + "}}";
+
+        StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
+        AdditionalWebData webData = new AdditionalWebData("localhost", "agent", "did");
+        request.setWeb(webData);
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);

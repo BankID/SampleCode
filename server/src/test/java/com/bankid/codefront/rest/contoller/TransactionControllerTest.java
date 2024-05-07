@@ -35,9 +35,9 @@ package com.bankid.codefront.rest.contoller;
 
 
 import com.bankid.codefront.TestUtils;
+import com.bankid.codefront.models.service.Status;
 import com.bankid.codefront.rest.model.AuthenticationRequest;
 import com.bankid.codefront.rest.model.SignRequest;
-import com.bankid.codefront.models.service.Status;
 import com.bankid.codefront.rest.model.UserVisibleDataFormat;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
@@ -45,6 +45,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -100,7 +102,7 @@ public class TransactionControllerTest  extends RestBaseControllerTest {
      * Test authentication, start, check and cancel transaction.
      * Disabled by default. Only for manual testing.
      */
-    //@Test
+    // @Test
     public void authStartCheckAndCancelTransaction() {
         // Get CSRF-token
         HttpHeaders headers = getCsrfHeaders();
@@ -112,12 +114,16 @@ public class TransactionControllerTest  extends RestBaseControllerTest {
             new HttpEntity<>(new AuthenticationRequest(), headers),
             AuthenticationResponse.class);
 
-        String cookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getAutoStartToken());
 
-        headers.add("Cookie", cookie);
+        List<String> cookies = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+        if (cookies != null) {
+            cookies.forEach((cookie) -> {
+                headers.add("Cookie", cookie);
+            });
+        }
 
         // Check status
         ResponseEntity<CheckResponse> collectResponse = this.getRestTemplate().exchange(
@@ -145,7 +151,7 @@ public class TransactionControllerTest  extends RestBaseControllerTest {
      * Test sign, start, check and cancel transaction.
      * Disabled by default. Only for manual testing.
      */
-    //@Test
+    // @Test
     public void signStartCheckAndCancelTransaction() {
         // Get CSRF-token
         HttpHeaders headers = getCsrfHeaders();
@@ -161,12 +167,16 @@ public class TransactionControllerTest  extends RestBaseControllerTest {
             new HttpEntity<>(request, headers),
             AuthenticationResponse.class);
 
-        String cookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getAutoStartToken());
 
-        headers.add("Cookie", cookie);
+        List<String> cookies = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+        if (cookies != null) {
+            cookies.forEach((cookie) -> {
+                headers.add("Cookie", cookie);
+            });
+        }
 
         // Check status
         ResponseEntity<CheckResponse> collectResponse = this.getRestTemplate().exchange(

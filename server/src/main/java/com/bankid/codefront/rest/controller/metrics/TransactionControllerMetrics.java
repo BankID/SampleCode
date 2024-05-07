@@ -140,7 +140,7 @@ public class TransactionControllerMetrics {
                 .record(timeTakenSeconds, TimeUnit.SECONDS);
 
         Counter.builder(METRICS_PREFIX + "finalized.success")
-                .description("Number of collecting request.")
+                .description("Number of finalized request.")
                 .register(Metrics.globalRegistry)
                 .increment();
     }
@@ -156,8 +156,18 @@ public class TransactionControllerMetrics {
                 .record(timeTakenSeconds, TimeUnit.SECONDS);
 
         Counter.builder(METRICS_PREFIX + "finalized.failed")
-                .description("Number of collecting request.")
+                .description("Number of failed request.")
                 .register(Metrics.globalRegistry)
                 .increment();
+    }
+
+    /**
+     * Add metrics for a failed domain check against host header.
+     */
+    public void domainMismatch() {
+        Counter.builder(METRICS_PREFIX + "domain_mismatch")
+            .description("Number of domain mismatches.")
+            .register(Metrics.globalRegistry)
+            .increment();
     }
 }

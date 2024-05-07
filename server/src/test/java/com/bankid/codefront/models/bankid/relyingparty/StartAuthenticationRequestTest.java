@@ -59,7 +59,7 @@ public class StartAuthenticationRequestTest {
      */
     @Test
     public void simpleSerialize() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\"}";
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"returnRisk\":true}";
 
         StartAuthenticationRequest request = new StartAuthenticationRequest("1.2.3.4");
 
@@ -74,7 +74,7 @@ public class StartAuthenticationRequestTest {
      */
     @Test
     public void serializeRequirements() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\","
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"returnRisk\":true,"
             + "\"requirement\":{"
                 + "\"cardReader\":\"class1\","
                 + "\"certificatePolicies\":[\"1.2.3.4.5\"]"
@@ -101,7 +101,8 @@ public class StartAuthenticationRequestTest {
     public void serializeUserVisibleData() throws JsonProcessingException {
         String expected = "{\"endUserIp\":\"1.2.3.4\","
             + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"userVisibleDataFormat\":\"simpleMarkdownV1\"}";
+            + "\"userVisibleDataFormat\":\"simpleMarkdownV1\","
+            + "\"returnRisk\":true}";
 
         StartAuthenticationRequest request = new StartAuthenticationRequest("1.2.3.4");
         request.setUserVisibleData(new Base64String(this.visibleData));
@@ -131,10 +132,49 @@ public class StartAuthenticationRequestTest {
      */
     @Test
     public void serializeUserNonVisibleData() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userNonVisibleData\":\"aW52aXNpYmxl\"}";
+        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userNonVisibleData\":\"aW52aXNpYmxl\",\"returnRisk\":true}";
 
         StartAuthenticationRequest request = new StartAuthenticationRequest("1.2.3.4");
         request.setUserNonVisibleData(new Base64String(this.nonVisibleData));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        Assertions.assertEquals(expected, json);
+    }
+
+    /**
+     * Serialize without returnRisk.
+     */
+    @Test
+    public void serializeNoRiskInformation() throws JsonProcessingException {
+        String expected = "{\"endUserIp\":\"1.2.3.4\"}";
+
+        StartAuthenticationRequest request = new StartAuthenticationRequest("1.2.3.4");
+        request.setReturnRisk(null);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        Assertions.assertEquals(expected, json);
+    }
+
+    /**
+     * Serialize with web.
+     */
+    @Test
+    public void serializeWeb() throws JsonProcessingException {
+        String expected = "{\"endUserIp\":\"1.2.3.4\","
+            + "\"returnRisk\":true,"
+            + "\"web\":{"
+            + "\"referringDomain\":\"localhost\","
+            + "\"userAgent\":\"agent\","
+            + "\"deviceIdentifier\":\"did\""
+            + "}}";
+
+        StartAuthenticationRequest request = new StartAuthenticationRequest("1.2.3.4");
+        AdditionalWebData webData = new AdditionalWebData("localhost", "agent", "did");
+        request.setWeb(webData);
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);

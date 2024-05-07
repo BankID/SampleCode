@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.bankid.codefront;
 
+import com.bankid.codefront.config.AppConfig;
 import com.bankid.codefront.config.BankIDRelyingPartyConfig;
 import com.bankid.codefront.config.HeadersConfig;
 import org.springframework.boot.SpringApplication;
@@ -48,7 +49,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * The starting point for our application.
  */
 @SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
-@EnableConfigurationProperties({BankIDRelyingPartyConfig.class, HeadersConfig.class})
+@EnableConfigurationProperties({AppConfig.class, BankIDRelyingPartyConfig.class, HeadersConfig.class})
 @SuppressWarnings({"FinalClass", "HideUtilityClassConstructor"})
 public class CodeFrontApplication {
 
