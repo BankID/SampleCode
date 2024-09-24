@@ -19,7 +19,7 @@ Here we provide the code used to create the demo site. The code languages used a
 
 ## Help for a full integration
 
-To integrate the BankID infrastructure, it is necessary to set up frontend and backend as well as to have a SSL-certificate. For help with your full integration, check out our [developer section](https://www.bankid.com/en/utvecklare/guider) on our website. 
+To integrate the BankID infrastructure, it is necessary to set up frontend and backend as well as to have a SSL-certificate. For help with your full integration, check out our [developer section](https://developers.bankid.com) on our website. 
 
 ## Disclaimer and terms of use
 

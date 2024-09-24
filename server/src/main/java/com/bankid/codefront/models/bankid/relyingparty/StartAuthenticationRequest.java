@@ -57,6 +57,16 @@ public class StartAuthenticationRequest {
      * <p>Boolean. Default is false
      */
     private Boolean returnRisk;
+    /**
+     * Orders started on the same device (started with autostart token) will call this URL after the order is completed,
+     * ignoring any return URL provided when the app was started.
+     * If the device does not support getting the returnUrl from the server the order will be cancelled.
+     * Using this parameter will make your service more secure and strengthen the channel binding
+     * between you and the user.
+     * Check that cookie/ip has not changed from starting page to returnUrl page.
+     * String 1 - 512 character
+     */
+    private String returnUrl;
     private BankIDRequirements requirement;
     private AdditionalWebData web;
 
@@ -130,6 +140,22 @@ public class StartAuthenticationRequest {
      */
     public void setUserNonVisibleData(Base64String userNonVisibleData) {
         this.userNonVisibleData = userNonVisibleData.getValue();
+    }
+
+    /**
+     * Returns the return url.
+     * @return the return url.
+     */
+    public String getReturnUrl() {
+        return this.returnUrl;
+    }
+
+    /**
+     * Sets the return url.
+     * @param returnUrl the url.
+     */
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
     }
 
     /**

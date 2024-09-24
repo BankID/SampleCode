@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -42,12 +42,19 @@ import api from './api';
 import Body from './Body';
 
 const App = () => {
+  const [loaded, setLoaded] = useState(false);
+
   // On launch we call the API to get a CSRF-token.
   useEffect(() => {
     api.start().then((response) => {
       Axios.defaults.headers.common['X-CSRF-TOKEN'] = response.data.csrfToken;
+      setLoaded(true);
     });
   }, []);
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <BrowserRouter basename={import.meta.env.VITE_PUBLIC_URL}>

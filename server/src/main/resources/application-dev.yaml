@@ -49,7 +49,7 @@ app:
           - "1.2.3.4.25"     # Mobile BankID
           - "1.2.752.71.1.3" # Nordea e-id on file and on smart card
           - "1.2.752.60.1.6" # Test BankID for some BankID Banks
-      client-cert-store-path: certificates/test/FPTestcert4_20220818.p12
+      client-cert-store-path: certificates/test/FPTestcert5_20240610.p12
       client-cert-store-password: qwerty123
       trust-store-path: certificates/test/truststore.p12
       trust-store-password: qwerty123

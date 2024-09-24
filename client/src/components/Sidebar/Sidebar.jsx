@@ -75,7 +75,7 @@ const Sidebar = () => {
 
         <a
           className='sidebar-footer'
-          href='https://www.bankid.com/utvecklare/guider'
+          href='https://developers.bankid.com'
           target='_blank'
           rel='noreferrer'
         >

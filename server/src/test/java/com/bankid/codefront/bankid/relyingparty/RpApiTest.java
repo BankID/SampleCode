@@ -87,7 +87,7 @@ public class RpApiTest {
 
         // Set client certificates
         when(this.settings.getClientCertStorePath()).thenReturn(
-                "certificates/FPTestcert4_20220818.p12");
+                "certificates/FPTestcert5_20240610.p12");
         when(this.settings.getClientCertStorePassword()).thenReturn("qwerty123");
         when(this.settings.getClientCertStoreType()).thenReturn("PKCS12");
 

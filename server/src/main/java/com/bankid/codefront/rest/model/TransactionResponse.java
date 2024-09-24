@@ -44,7 +44,7 @@ public class TransactionResponse {
     /**
      * Create transaction model.
      * @param transactionId the transaction id.
-     * @param autoStartToken
+     * @param autoStartToken the auto start token.
      */
     public TransactionResponse(String transactionId, String autoStartToken) {
         this.transactionId = transactionId;

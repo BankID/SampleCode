@@ -44,16 +44,18 @@ import org.junit.jupiter.api.Test;
 public class StartTransactionResponseTest {
     /**
      * Test to verify that deserialization works nicely. The json data is taken from
-     * http://www.bankid.com/rp/info
+     * https://developers.bankid.com
      */
     @Test
     public void fromRpGuidelines() throws JsonProcessingException {
-        String json = "{\n"
-            + "  \"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\", \n"
-            + "  \"autoStartToken\":\"7c40b5c9-fa74-49cf-b98c-bfe651f9a7c6\", \n"
-            + "  \"qrStartToken\":\"67df3917-fa0d-44e5-b327-edcc928297f8\", \n"
-            + "  \"qrStartSecret\":\"d28db9a7-4cde-429e-a983-359be676944c\"\n"
-            + "}";
+        String json = """
+            {
+                "orderRef": "131daac9-16c6-4618-beb0-365768f37288",
+                "autoStartToken": "7c40b5c9-fa74-49cf-b98c-bfe651f9a7c6",
+                "qrStartToken": "67df3917-fa0d-44e5-b327-edcc928297f8",
+                "qrStartSecret": "d28db9a7-4cde-429e-a983-359be676944c"
+            }
+        """;
 
         ObjectMapper mapper = new ObjectMapper();
         StartTransactionResponse response = mapper.readValue(json, StartTransactionResponse.class);
@@ -70,13 +72,15 @@ public class StartTransactionResponseTest {
      */
     @Test
     public void ignoreUnknownProperties() throws JsonProcessingException {
-        String json = "{\n"
-            + "  \"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\", \n"
-            + "  \"autoStartToken\":\"7c40b5c9-fa74-49cf-b98c-bfe651f9a7c6\", \n"
-            + "  \"qrStartToken\":\"67df3917-fa0d-44e5-b327-edcc928297f8\", \n"
-            + "  \"qrStartSecret\":\"d28db9a7-4cde-429e-a983-359be676944c\", \n"
-            + "  \"unknownProperty\":\"propertyValue\"\n"
-            + "}";
+        String json = """
+            {
+                "orderRef": "131daac9-16c6-4618-beb0-365768f37288",
+                "autoStartToken": "7c40b5c9-fa74-49cf-b98c-bfe651f9a7c6",
+                "qrStartToken": "67df3917-fa0d-44e5-b327-edcc928297f8",
+                "qrStartSecret": "d28db9a7-4cde-429e-a983-359be676944c",
+                "unknownProperty": "propertyValue"
+            }
+        """;
 
         ObjectMapper mapper = new ObjectMapper();
         StartTransactionResponse response = mapper.readValue(json, StartTransactionResponse.class);

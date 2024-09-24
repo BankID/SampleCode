@@ -34,8 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.bankid.codefront.models.bankid.relyingparty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,8 +60,12 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        String expectedJson = "{\"certificatePolicies\":[\"1.2.752.78.1.5\"]}";
-        Assertions.assertEquals(expectedJson, json);
+        String expectedJson = """
+            {
+                "certificatePolicies": ["1.2.752.78.1.5"]
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
@@ -77,8 +82,12 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        String expectedJson = "{\"certificatePolicies\":[\"1.2.752.78.1.5\",\"1.2.752.71.1.3\",\"1.2.752.78.1.2\"]}";
-        Assertions.assertEquals(expectedJson, json);
+        String expectedJson = """
+            {
+                "certificatePolicies":["1.2.752.78.1.5", "1.2.752.71.1.3", "1.2.752.78.1.2"]
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
@@ -95,7 +104,12 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        Assertions.assertEquals("{\"cardReader\":\"class2\"}", json);
+        String expectedJson = """
+            {
+                "cardReader":"class2"
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
@@ -112,7 +126,12 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        Assertions.assertEquals("{\"pinCode\":true}", json);
+        String expectedJson = """
+            {
+                "pinCode": true
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
@@ -128,7 +147,10 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        Assertions.assertEquals("{}", json);
+        String expectedJson = """
+            {}
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
@@ -145,6 +167,11 @@ public class BankIDRequirementsTest {
         String json = mapper.writeValueAsString(requirements);
 
         // Verify
-        Assertions.assertEquals("{\"risk\":\"LOW\"}", json);
+        String expectedJson = """
+            {
+              "risk": "LOW"
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 }

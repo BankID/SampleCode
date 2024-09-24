@@ -36,8 +36,10 @@ package com.bankid.codefront.models.bankid.relyingparty;
 import com.bankid.codefront.models.Base64String;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -59,29 +61,27 @@ public class StartSignatureRequestTest {
      * Serialize as simple as it gets.
      */
     @Test
-    public void simpleSerialize() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true}";
-
+    public void simpleSerialize() throws JsonProcessingException, JSONException {
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "returnRisk": true
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
      * Serialize with requirements.
      */
     @Test
-    public void serializeRequirements() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true,"
-            + "\"requirement\":{"
-                + "\"cardReader\":\"class1\","
-                + "\"certificatePolicies\":[\"1.2.3.4.5\"]"
-            + "}"
-            + "}";
-
+    public void serializeRequirements() throws JsonProcessingException, JSONException {
         BankIDRequirements requirements = new BankIDRequirements();
         requirements.setCardReader("class1");
         requirements.setCertificatePolicies(Collections.singletonList("1.2.3.4.5"));
@@ -92,16 +92,25 @@ public class StartSignatureRequestTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "returnRisk": true,
+                "requirement": {
+                  "cardReader": "class1",
+                  "certificatePolicies": ["1.2.3.4.5"]
+                }
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
      * Serialize with user visible data.
      */
     @Test
-    public void serializeUserVisibleData() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\",\"userVisibleData\":\"dmlzaWJsZQ==\",\"returnRisk\":true}";
-
+    public void serializeUserVisibleData() throws JsonProcessingException, JSONException {
         StartSignatureRequest request = new StartSignatureRequest(
                 "1.2.3.4",
                 new Base64String(this.visibleData));
@@ -110,61 +119,65 @@ public class StartSignatureRequestTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "returnRisk": true
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
      * Serialize with user visible data with format.
      */
     @Test
-    public void serializeUserVisibleDataWithFormat() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\","
-            + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"userVisibleDataFormat\":\"simpleMarkdownV1\","
-            + "\"returnRisk\":true}";
-
+    public void serializeUserVisibleDataWithFormat() throws JsonProcessingException, JSONException {
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
         request.setUserVisibleDataFormat("simpleMarkdownV1");
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "userVisibleDataFormat": "simpleMarkdownV1",
+                "returnRisk": true
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
      * Serialize with user non visible data.
      */
     @Test
-    public void serializeUserNonVisibleData() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\","
-            + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"userNonVisibleData\":\"aW52aXNpYmxl\","
-            + "\"returnRisk\":true}";
-
+    public void serializeUserNonVisibleData() throws JsonProcessingException, JSONException {
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
         request.setUserNonVisibleData(new Base64String(this.nonVisibleData));
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "userNonVisibleData": "aW52aXNpYmxl",
+                "returnRisk": true
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 
     /**
      * Serialize with web.
      */
     @Test
-    public void serializeWeb() throws JsonProcessingException {
-        String expected = "{\"endUserIp\":\"1.2.3.4\","
-            + "\"userVisibleData\":\"dmlzaWJsZQ==\","
-            + "\"returnRisk\":true,"
-            + "\"web\":{"
-            + "\"referringDomain\":\"localhost\","
-            + "\"userAgent\":\"agent\","
-            + "\"deviceIdentifier\":\"did\""
-            + "}}";
-
+    public void serializeWeb() throws JsonProcessingException, JSONException {
         StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
         AdditionalWebData webData = new AdditionalWebData("localhost", "agent", "did");
         request.setWeb(webData);
@@ -172,6 +185,40 @@ public class StartSignatureRequestTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "returnRisk": true,
+                "web": {
+                  "referringDomain": "localhost",
+                  "userAgent": "agent",
+                  "deviceIdentifier": "did"
+                }
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
+    }
+
+    /**
+     * Serialize with returnUrl.
+     */
+    @Test
+    public void serializeReturnUrl() throws JsonProcessingException, JSONException {
+        StartSignatureRequest request = new StartSignatureRequest("1.2.3.4", new Base64String(this.visibleData));
+        request.setReturnUrl("https://localhost/loggedIn");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(request);
+
+        String expectedJson = """
+            {
+                "endUserIp": "1.2.3.4",
+                "userVisibleData": "dmlzaWJsZQ==",
+                "returnRisk": true,
+                "returnUrl": "https://localhost/loggedIn"
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 }

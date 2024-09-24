@@ -48,12 +48,14 @@ public class CollectResponseTest {
      */
     @Test
     public void deserializeInProgress() throws JsonProcessingException {
-        String json = "{\n"
-            + "  \"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\", \n"
-            + "  \"status\":\"pending\",\n"
-            + "  \"hintCode\":\"userSign\"\n"
-            + "}";
 
+        String json = """
+            {
+                "orderRef": "131daac9-16c6-4618-beb0-365768f37288",
+                "status": "pending",
+                "hintCode": "userSign"
+            }
+        """;
         ObjectMapper mapper = new ObjectMapper();
         CollectResponse response = mapper.readValue(json, CollectResponse.class);
 
@@ -70,11 +72,13 @@ public class CollectResponseTest {
      */
     @Test
     public void deserializeCancelled() throws JsonProcessingException {
-        String json = "{\n"
-            + "  \"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\", \n"
-            + "  \"status\":\"failed\",\n"
-            + "  \"hintCode\":\"userCancel\"\n"
-            + "}";
+        String json = """
+            {
+                "orderRef": "131daac9-16c6-4618-beb0-365768f37288",
+                "status": "failed",
+                "hintCode": "userCancel"
+            }
+        """;
 
         ObjectMapper mapper = new ObjectMapper();
         CollectResponse response = mapper.readValue(json, CollectResponse.class);
@@ -92,27 +96,29 @@ public class CollectResponseTest {
      */
     @Test
     public void deserializeCompleted() throws JsonProcessingException {
-        String json = "{\n"
-            + "  \"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\", \n"
-            + "  \"status\":\"complete\",\n"
-            + "  \"completionData\":{\n"
-            + "    \"user\":{\n"
-            + "      \"personalNumber\":\"190000000000\",\n"
-            + "      \"name\":\"Karl Karlsson\",\n"
-            + "      \"givenName\":\"Karl\",\n"
-            + "      \"surname\":\"Karlsson\"\n"
-            + "    },\n"
-            + "    \"device\":{\n"
-            + "      \"ipAddress\":\"192.168.0.1\"\n"
-            + "    },\n"
-            + "    \"cert\":{\n"
-            + "      \"notBefore\":\"1502983274000\",\n"
-            + "      \"notAfter\":\"1563549674000\"\n"
-            + "    },\n"
-            + "    \"signature\":\"base64 xml-dig-sig\", \n"
-            + "    \"ocspResponse\":\"base64 ocsp response\"\n"
-            + "  } \n"
-            + "}";
+        String json = """
+            {
+                "orderRef": "131daac9-16c6-4618-beb0-365768f37288",
+                "status": "complete",
+                "completionData": {
+                    "user": {
+                        "personalNumber": "190000000000",
+                        "name": "Karl Karlsson",
+                        "givenName": "Karl",
+                        "surname": "Karlsson"
+                    },
+                    "device": {
+                        "ipAddress ": "192.168.0.1"
+                    },
+                    "cert": {
+                        "notBefore": "1502983274000",
+                        "notAfter": "1563549674000"
+                    },
+                    "signature": "base64 xml-dig-sig",
+                    "ocspResponse": "base64 ocsp response"
+                }
+            }
+        """;
 
         ObjectMapper mapper = new ObjectMapper();
         CollectResponse response = mapper.readValue(json, CollectResponse.class);

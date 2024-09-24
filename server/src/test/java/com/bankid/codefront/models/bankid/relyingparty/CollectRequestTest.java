@@ -35,8 +35,10 @@ package com.bankid.codefront.models.bankid.relyingparty;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /**
  * Test collect request.
@@ -46,13 +48,17 @@ public class CollectRequestTest {
      * Serialize as simple as it gets.
      */
     @Test
-    public void serialize() throws JsonProcessingException {
-        String expected = "{\"orderRef\":\"131daac9-16c6-4618-beb0-365768f37288\"}";
-
+    public void serialize() throws JsonProcessingException, JSONException {
         CollectRequest request = new CollectRequest("131daac9-16c6-4618-beb0-365768f37288");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
 
-        Assertions.assertEquals(expected, json);
+        // Verify
+        String expectedJson = """
+            {
+              "orderRef": "131daac9-16c6-4618-beb0-365768f37288"
+            }
+        """;
+        JSONAssert.assertEquals(expectedJson, json, JSONCompareMode.STRICT);
     }
 }
