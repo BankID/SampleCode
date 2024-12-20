@@ -44,13 +44,13 @@
 
         <!-- maven plugin versions -->
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
-        <version.maven.clean.plugin>3.3.2</version.maven.clean.plugin>
+        <version.maven.clean.plugin>3.4.0</version.maven.clean.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
-        <version.maven.deploy.plugin>3.1.2</version.maven.deploy.plugin>
+        <version.maven.deploy.plugin>3.1.3</version.maven.deploy.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
         <version.maven.assembly.plugin>3.7.1</version.maven.assembly.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
-        <version.maven.dependency.plugin>3.6.1</version.maven.dependency.plugin>
+        <version.maven.dependency.plugin>3.8.1</version.maven.dependency.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
         <version.maven.war.plugin>3.4.0</version.maven.war.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
@@ -60,56 +60,54 @@
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-toolchains-plugin -->
         <version.maven.toolchain.plugin>3.2.0</version.maven.toolchain.plugin>
         <!-- https://mvnrepository.com/artifact/com.github.eirslett/frontend-maven-plugin -->
-        <version.maven.frontend.plugin>1.15.0</version.maven.frontend.plugin>
+        <version.maven.frontend.plugin>1.15.1</version.maven.frontend.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
-        <version.org.apache.plugins.maven-jar-plugin>3.4.1</version.org.apache.plugins.maven-jar-plugin>
+        <version.org.apache.plugins.maven-jar-plugin>3.4.2</version.org.apache.plugins.maven-jar-plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->
-        <version.org.apache.maven.plugins.maven-enforcer-plugin>3.4.1</version.org.apache.maven.plugins.maven-enforcer-plugin>
+        <version.org.apache.maven.plugins.maven-enforcer-plugin>3.5.0</version.org.apache.maven.plugins.maven-enforcer-plugin>
         <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/flatten-maven-plugin -->
         <version.org.codehaus.mojo.flatten-maven-plugin>1.6.0</version.org.codehaus.mojo.flatten-maven-plugin>
 
         <!-- Versions of 3rd party packages -->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <version.org.springframework.boot>3.2.5</version.org.springframework.boot>
+        <version.org.springframework.boot>3.3.6</version.org.springframework.boot>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin -->
-        <version.org.springframework.maven.plugin>3.2.5</version.org.springframework.maven.plugin>
+        <version.org.springframework.maven.plugin>3.3.6</version.org.springframework.maven.plugin>
         <!-- https://mvnrepository.com/artifact/org.owasp.encoder/encoder -->
-        <version.org.owasp.encoder>1.2.3</version.org.owasp.encoder>
+        <version.org.owasp.encoder>1.3.1</version.org.owasp.encoder>
         <!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
         <version.net.logstash.logback.logstash-logback-encoder>7.4</version.net.logstash.logback.logstash-logback-encoder>
         <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
-        <version.bouncycastle.jdk18>1.78.1</version.bouncycastle.jdk18>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson/jackson-bom -->
-        <jackson-bom.version>2.16.2</jackson-bom.version>
+        <version.bouncycastle.jdk18>1.79</version.bouncycastle.jdk18>
 
         <!-- Version of testing plugins to use -->
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-        <version.surefire.plugin>3.2.5</version.surefire.plugin>
+        <version.surefire.plugin>3.5.2</version.surefire.plugin>
         <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
         <version.jacoco.plugin>0.8.12</version.jacoco.plugin>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
-        <version.org.mockito.mockito>5.2.0</version.org.mockito.mockito>
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <version.org.mockito.mockito>5.14.2</version.org.mockito.mockito>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
-        <version.org.mockito.junit>5.11.0</version.org.mockito.junit>
+        <version.org.mockito.junit>5.14.2</version.org.mockito.junit>
 
         <!-- Version of code analysis plugins to use -->
         <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
-        <version.spotbugs.plugin>4.8.4.0</version.spotbugs.plugin>
+        <version.spotbugs.plugin>4.8.6.6</version.spotbugs.plugin>
         <!-- https://mvnrepository.com/artifact/com.h3xstream.findsecbugs/findsecbugs-plugin -->
         <version.com.h3xstream.findsecbugs.findsecbugs-plugin>1.13.0</version.com.h3xstream.findsecbugs.findsecbugs-plugin>
         <!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
-        <version.com.puppycrawl.tools.checkstyle>10.16.0</version.com.puppycrawl.tools.checkstyle>
+        <version.com.puppycrawl.tools.checkstyle>10.20.2</version.com.puppycrawl.tools.checkstyle>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
-        <version.checkstyle.plugin>3.3.1</version.checkstyle.plugin>
+        <version.checkstyle.plugin>3.6.0</version.checkstyle.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
-        <version.pmd.plugin>3.22.0</version.pmd.plugin>
+        <version.pmd.plugin>3.26.0</version.pmd.plugin>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jxr-plugin -->
-        <version.jxr.plugin>3.3.2</version.jxr.plugin>
+        <version.jxr.plugin>3.6.0</version.jxr.plugin>
         <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations -->
-        <version.com.github.spotbugs.annotations>4.8.4</version.com.github.spotbugs.annotations>
+        <version.com.github.spotbugs.annotations>4.8.6</version.com.github.spotbugs.annotations>
 
         <!-- The Node.js version to download -->
-        <version.node.js>v20.11.0</version.node.js>
+        <version.node.js>v22.12.0</version.node.js>
     </properties>
 
     <build>
